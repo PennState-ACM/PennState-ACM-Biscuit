@@ -26,4 +26,4 @@ I/O Sensors
 Supplemental
 -----------------------------
  - Split 16-bit -> 8-bit
- - Implemnt custom byteTx and byteRx
+ - Implement custom byteTx and byteRx
