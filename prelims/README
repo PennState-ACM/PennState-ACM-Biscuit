@@ -1,0 +1,14 @@
+These preliminary documents, programs, and files provide the necessary prerequisites
+  for programming the roomba (irobot create). 
+
+Document 01 provides good background information and an introduction to programming the roomba command module.
+Document 02 provides a complete reference for the command module microprocessor.
+Document 03 provides a handy reference to most of the more useful parts of document 01.
+
+WinAVR will setup your (PC) computer for compiling programs and transferring them to the roomba command module.
+  This will be unnecessary for most people, but it might help to see if your code compiles.
+  **If you are working with UNIX, check out Shane's blog at http://shanetully.com/?p=200**
+
+The avr folder contains the includes, libs, and binaries required for compiling.  The includes will be of primary interest here.
+  This folder is installed with WinAVR.
+  
