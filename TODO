@@ -1,0 +1,28 @@
+Goals
+-----------------------------
+ - Kinect
+ - Write stuff
+ - Sad Roomba (LCD)
+ - Accessories
+ - Bluetooth -> Phones
+
+Actions
+-----------------------------
+ - On
+ - Startup
+ - Drive/Turn
+ - Change BAUD
+ - Change mode (safe/full)
+
+I/O Sensors
+-----------------------------
+ - Bump sensor
+   Cliff sensor
+ - IR Transmit/Receive
+ - Data stream @  ms wait
+ - LEDs
+ - Music
+
+Supplemental
+-----------------------------
+ - Split 16-bit -> 8-bit
