@@ -19,7 +19,7 @@ I/O Sensors
  - Bump sensor
    Cliff sensor
  - IR Transmit/Receive
- - Data stream @  ms wait
+ - Data stream @ 15 ms wait
  - LEDs
  - Music
 
