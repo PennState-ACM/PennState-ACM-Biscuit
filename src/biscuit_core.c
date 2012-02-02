@@ -1,13 +1,16 @@
-bisc_core_led(int led, int color, int intensity) {
-    // Power LED = 0x08
-    // Advance LED = 0x02
-    // Both power and advance = 0x0A
-    // #define these values?
+#include "biscuit_core.h"
 
-    // Color: integer 0-255 from green to red
-    // Intensity: integer 0-255 from 0% to 100%
-    byteTx(139);
+
+
+void bisc_core_led(uint8_t led, uint8_t color, uint8_t intensity) {
+    byteTx(BISC_CMD_LED);
     byteTx(led);
     byteTx(color);
     byteTx(intensity);
+}
+
+
+void bisc_core_sendIR(uint8_t value) {
+    byteTx(BISC_CMD_SEND_IR);
+    byteTx(value);
 }
