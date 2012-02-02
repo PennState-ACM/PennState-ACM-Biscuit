@@ -1,8 +1,9 @@
 #include "biscuit.h"
+#include "biscuit_core.h"
 
 
 
-void bisc_powerOn() {
+void bisc_init() {
     bisc_core_start();
     bisc_core_setMode(BISC_MODE_SAFE);
 }
