@@ -1,9 +1,14 @@
 #include <stdlib.h>
 #include <avr/io.h>
 
+#define BISC_CMD_START      128
 #define BISC_CMD_LED        139
 #define BISC_CMD_SENSORS    142
 #define BISC_CMD_SEND_IR    151
+
+#define BISC_MODE_PASSIVE   128
+#define BISC_MODE_SAFE      131
+#define BISC_MODE_FULL      132
 
 #define BISC_LED_POWER      0x08
 #define BISC_LED_ADVANCE    0x02
@@ -36,6 +41,18 @@
 
 #define BISC_HIGH_BYTE(xValue)  ((uint8_t)(((xValue) >> 8) & 0x00FF))
 #define BISC_LOW_BYTE(xValue)   ((uint8_t)((xValue) & 0x00FF))
+
+/*
+ * Starts the Open Interface
+ */
+void bisc_core_start();
+
+/*
+ * Sets the operating mode of Create
+ *
+ * mode: BISC_MODE_PASSIVE, BISC_MODE_SAFE, or BISC_MODE_FULL
+ */
+void bisc_core_setMode(uint8_t mode);
 
 /*
  * description
