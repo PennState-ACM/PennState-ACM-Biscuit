@@ -1,5 +1,5 @@
-bisc_powerOn();
-bisc_setMode(uint8_t mode);
+void bisc_powerOn();
+void bisc_setMode(uint8_t mode);
 
-bisc_ledOn(uint8_t led, uint8_t color, uint8_t intensity);
-bisc_ledOff(uint8_t led);
+void bisc_ledOn(uint8_t led, uint8_t color, uint8_t intensity);
+void bisc_ledOff(uint8_t led);
