@@ -1,6 +1,16 @@
 #include "biscuit_core.h"
 
 
+void bisc_core_start() {
+    byteTx(BISC_CMD_START);
+}
+
+
+void bisc_core_setMode(uint8_t mode) {
+    byteTx(mode);
+}
+
+
 //TODO: Check for out-of-bounds values
 void bisc_core_led(uint8_t led, uint8_t color, uint8_t intensity) {
     byteTx(BISC_CMD_LED);

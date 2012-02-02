@@ -1,9 +1,11 @@
 #include <stdlib.h>
 #include <avr/io.h>
 
+
 /*
  * Opcode values
  */
+#define BISC_CMD_START          128
 #define BISC_CMD_LED            139
 #define BISC_CMD_SENSORS        142
 #define BISC_CMD_SEND_IR        151
@@ -15,6 +17,14 @@
 #define BISC_LED_POWER          0x08
 #define BISC_LED_ADVANCE        0x02
 #define BISC_LED_BOTH           0x0A
+
+
+/*
+ * Mode values
+ */
+#define BISC_MODE_PASSIVE       128
+#define BISC_MODE_SAFE          131
+#define BISC_MODE_FULL          132
 
 
 /*
@@ -94,12 +104,27 @@
 #define BISC_SENS_MIN           0
 #define BISC_SENS_MAX           42
 
+
+//Error values
 #define BISC_ERR_NONE           0
 #define BISC_ERR_INVALID        -1
 
 
+//Macros to get the high and low bytes
 #define BISC_HIGH_BYTE(xValue)  ((uint8_t)(((xValue) >> 8) & 0x00FF))
 #define BISC_LOW_BYTE(xValue)   ((uint8_t)((xValue) & 0x00FF))
+
+/*
+ * Starts the Open Interface
+ */
+void bisc_core_start();
+
+/*
+ * Sets the operating mode of Create
+ *
+ * mode: BISC_MODE_PASSIVE, BISC_MODE_SAFE, or BISC_MODE_FULL
+ */
+void bisc_core_setMode(uint8_t mode);
 
 /*
  * description
@@ -111,8 +136,8 @@
 void bisc_core_led(uint8_t led, uint8_t color, uint8_t intensity);
 
 /*
- * Send the given value to the IR receiver
- * DOES NOT send the given value from the receiver
+ * Send the given value TO the IR receiver
+ * DOES NOT send the given value FROM the receiver
  * 
  * value: any of the BISC_IR values
  * TODO: Find out what Document 3 means by using a preload resistor
