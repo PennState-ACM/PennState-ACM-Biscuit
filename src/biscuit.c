@@ -1,3 +1,13 @@
+#include "biscuit.h"
+
+
+
+bisc_powerOn() {
+    bisc_core_start();
+    bisc_core_setMode(BISC_MODE_SAFE);
+}
+
+
 bisc_ledOn(uint8_t led, uint8_t color, uint8_t intensity) {
     bisc_core_led(led, color, intensity);
 }
