@@ -47,8 +47,8 @@
 void bisc_core_led(uint8_t led, uint8_t color, uint8_t intensity);
 
 /*
- * Send the given value to the IR receiver
- * DOES NOT send the given value from the receiver
+ * Send the given value TO the IR receiver
+ * DOES NOT send the given value FROM the receiver
  * 
  * value: any of the BISC_IR values
  * TODO: Find out what Document 3 means by using a preload resistor
