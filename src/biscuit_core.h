@@ -117,14 +117,14 @@
 /*
  * Starts the Open Interface
  */
-void bisc_core_start();
+void bisc_start();
 
 /*
  * Sets the operating mode of Create
  *
  * mode: BISC_MODE_PASSIVE, BISC_MODE_SAFE, or BISC_MODE_FULL
  */
-void bisc_core_setMode(uint8_t mode);
+void bisc_setMode(uint8_t mode);
 
 /*
  * description
@@ -133,7 +133,7 @@ void bisc_core_setMode(uint8_t mode);
  * color: integer 0-255 from green to red
  * intensity: integer 0-255 from 0% to 100%
  */
-void bisc_core_led(uint8_t led, uint8_t color, uint8_t intensity);
+void bisc_led(uint8_t led, uint8_t color, uint8_t intensity);
 
 /*
  * Send the given value TO the IR receiver
@@ -142,7 +142,7 @@ void bisc_core_led(uint8_t led, uint8_t color, uint8_t intensity);
  * value: any of the BISC_IR values
  * TODO: Find out what Document 3 means by using a preload resistor
  */
-void bisc_core_sendIR(uint8_t value);
+void bisc_sendIR(uint8_t value);
 
 
 /*
@@ -154,4 +154,4 @@ void bisc_core_sendIR(uint8_t value);
  * size: the number of bytes to place in 'values'
  *  should not be larger than the sensor packet returned
  */
-int8_t bisc_core_sensors(uint8_t sensor, uint8_t* values, uint8_t size);
+int8_t bisc_sensors(uint8_t sensor, uint8_t* values, uint8_t size);

@@ -1,18 +1,18 @@
 #include "biscuit_core.h"
 
 
-void bisc_core_start() {
+void bisc_start() {
     byteTx(BISC_CMD_START);
 }
 
 
-void bisc_core_setMode(uint8_t mode) {
+void bisc_setMode(uint8_t mode) {
     byteTx(mode);
 }
 
 
 //TODO: Check for out-of-bounds values
-void bisc_core_led(uint8_t led, uint8_t color, uint8_t intensity) {
+void bisc_led(uint8_t led, uint8_t color, uint8_t intensity) {
     byteTx(BISC_CMD_LED);
     byteTx(led);
     byteTx(color);
@@ -20,12 +20,12 @@ void bisc_core_led(uint8_t led, uint8_t color, uint8_t intensity) {
 }
 
 
-void bisc_core_sendIR(uint8_t value) {
+void bisc_sendIR(uint8_t value) {
     byteTx(BISC_CMD_SEND_IR);
     byteTx(value);
 }
 
-int8_t bisc_core_sensors(uint8_t sensor, uint8_t* values, uint8_t size) {
+int8_t bisc_sensors(uint8_t sensor, uint8_t* values, uint8_t size) {
 	//exit on invalid sensor data or null values
 	if(sensor < BISC_SENS_MIN || sensor > BISC_SENS_MAX 
 		|| values == NULL) {
