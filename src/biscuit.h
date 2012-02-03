@@ -1,14 +1,24 @@
+#include "biscuit_core.h"
+
 /*
  * Starts the Open Interface and sets the mode to BISC_MODE_SAFE
  */
 void bisc_init();
 
 /*
- * Sets the operating mode of Create
- *
- * mode: BISC_MODE_PASSIVE, BISC_MODE_SAFE, or BISC_MODE_FULL
+ * Sets the operating mode of Create to passive
  */
-void bisc_setMode(uint8_t mode);
+void bisc_mode_passive();
+
+/*
+ * Sets the operating mode of Create to safe
+ */
+void bisc_mode_safe();
+
+/*
+ * Sets the operating mode of Create to full
+ */
+void bisc_mode_full();
 
 /*
  * description

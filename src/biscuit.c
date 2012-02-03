@@ -1,11 +1,22 @@
 #include "biscuit.h"
-#include "biscuit_core.h"
 
 
 
 void bisc_init() {
     bisc_start();
     bisc_setMode(BISC_MODE_SAFE);
+}
+
+void bisc_mode_passive() {
+    bisc_setMode(BISC_MODE_PASSIVE);
+}
+
+void bisc_mode_safe() {
+    bisc_setMode(BISC_MODE_SAFE);
+}
+
+void bisc_mode_full() {
+    bisc_setMode(BISC_MODE_FULL);
 }
 
 void bisc_ledOn(uint8_t led, uint8_t color, uint8_t intensity) {
