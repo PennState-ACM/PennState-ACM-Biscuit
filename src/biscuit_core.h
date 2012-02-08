@@ -9,24 +9,65 @@
  * Opcode values
  */
 #define BISC_CMD_START          128
+#define BISC_CMD_BAUD           129
 #define BISC_CMD_LED            139
 #define BISC_CMD_SENSORS        142
 #define BISC_CMD_SEND_IR        151
 
 
 /*
- * Registry values
+ * IO registry values and bitfields
  */
-#define BISC_REG_IO_DATA        USR0A
-#define BISC_REG_IO_STATUS      UCSR0A
+#define BISC_IO_DATA_REG        USR0A
+#define BISC_IO_STATUS_REG      UCSR0A
+#define BISC_IO_STATUS_EMPTY    0x20
+//Transfer interrupt enable
+#define BISC_IO_STATUS_TXIE     0x40
+#define BISC_IO_STATUS_FULL     0x80
+
+/*
+ * Baud registry and codes
+ */
+#define BISC_BAUD_REG           BISC_ATM_BAUD_0
+
+//Create baud codes
+#define BISC_BAUD_300           0
+#define BISC_BAUD_600           1
+#define BISC_BAUD_1200          2
+#define BISC_BAUD_2400          3
+#define BISC_BAUD_4800          4
+#define BISC_BAUD_9600          5
+#define BISC_BAUD_14400         6
+#define BISC_BAUD_19200         7
+#define BISC_BAUD_28800         8
+#define BISC_BAUD_38400         9
+#define BISC_BAUD_57600         10
+#define BISC_BAUD_115200        11
+
+#define BISC_BAUD_REC           BISC_BAUD_28800
+#define BISC_BAUD_MAX           BISC_BAUD_115200
+
+//command module codes
+#define BISC_ATM_BAUD_300       3839
+#define BISC_ATM_BAUD_600       1919
+#define BISC_ATM_BAUD_1200      959
+#define BISC_ATM_BAUD_2400      479
+#define BISC_ATM_BAUD_4800      239
+#define BISC_ATM_BAUD_9600      119
+#define BISC_ATM_BAUD_14400     79
+#define BISC_ATM_BAUD_19200     59
+#define BISC_ATM_BAUD_28800     39
+#define BISC_ATM_BAUD_38400     29
+#define BISC_ATM_BAUD_57600     19
+#define BISC_ATM_BAUD_115200    9
 
 /*
  * Buffer settings
  * NOTE: For all I/O buffer information,
  *  See that Atmega168 Reference (Document 02), Section 18.9
  */
-#define BISC_BUFFER_EMPTY       0x20
-#define BISC_BUFFER_FULL        0x80
+
+
 
 /*
  * LED values
@@ -191,6 +232,11 @@ void bisc_buffer_clear();
  * Starts the Open Interface
  */
 void bisc_start();
+
+/*
+ * Set the baud rate of the Create
+ */
+void bisc_baud(uint8_t value);
 
 /*
  * Sets the operating mode of Create

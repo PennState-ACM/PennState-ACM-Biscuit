@@ -4,7 +4,9 @@
 #include "biscuit_core.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
+#include <util/delay.h>
 #include <stdlib.h>
+
 
 /*
  * Power related macros
@@ -26,7 +28,14 @@ void bisc_prepare();
 /*
  * Powers on the Create
  */
-void bisc_power_on()
+void bisc_power_on();
+
+/*
+ * Sets the same baud rate for the Create and for the Command module
+ * 
+ * code: must be of one of the BISC_BAUD values
+ */
+void bisc_baud_all(uint8_t code);
 
 /*
  * Sets the operating mode of Create to passive
@@ -44,19 +53,25 @@ void bisc_mode_safe();
 void bisc_mode_full();
 
 /*
- * description
+ * Turns on the given led with given color and intensity
  * 
- * led: 
+ * led: must be of BISC_LED
  * color: integer 0-255 from green to red
  * intensity: integer 0-255 from 0% to 100%
  */
 void bisc_led_on(uint8_t led, uint8_t color, uint8_t intensity);
 
 /*
- * description
+ * Turns of the given led
  * 
- * led: 
+ * led: must be of BISC_LED
  */
 void bisc_led_off(uint8_t led);
+
+
+/*
+ * Busy clock cycles to stall for time in milliseconds
+ */
+void bisc_delay(uint16_t ms)
 
 #endif

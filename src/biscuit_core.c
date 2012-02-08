@@ -1,17 +1,23 @@
 #include "biscuit_core.h"
 
 void bisc_buffer_send(uint8_t value) {
-	while(!(BISC_REG_IO_STATUS & BISC_BUFFER_EMPTY));
-	BISC_REG_IO_DATA = value;
+	//stall until the buffer is empty
+	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_EMPTY));
+
+	//write the balue to the data buffer
+	BISC_IO_DATA_REG = value;
 }
 
 uint8_t bisc_buffer_read() {
-	while(!(BISC_REG_IO_STATUS & BISC_BUFFER_FULL));
-	return BISC_REG_IO_DATA;
+	//stall until the buffer is full
+	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL));
+
+	//read the data
+	return BISC_IO_DATA_REG;
 }
 
 uint8_t bisc_buffer_isReady() {
-	if(BISC_REG_IO_STATUS & BISC_BUFFER_FULL) {
+	if(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL) {
 		return BISC_TRUE;
 	} else {
 		return BISC_FALSE;
@@ -19,12 +25,25 @@ uint8_t bisc_buffer_isReady() {
 }
 
 void bisc_buffer_clear() {
-	BISC_REG_IO_DATA = 0;
-	BISC_REG_IO_STATUS = BISC_BUFFER_EMPTY;
+	BISC_IO_DATA_REG = 0;
+	BISC_IO_STATUS_REG = BISC_IO_STATUS_EMPTY;
 }
 
 void bisc_start() {
     bisc_buffer_send(BISC_CMD_START);
+}
+
+void bisc_baud(uint8_t value) {
+	bisc_buffer_send(BISC_CMD_BAUD);
+	
+	//enable the transfer interrupt
+	BISC_IO_STATUS_REG |= BISC_IO_STATUS_TXIE;
+	
+	//send the code
+	bisc_buffer_send(value);
+	
+	//stall until the interrupt occurs
+	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_TXIE));
 }
 
 
