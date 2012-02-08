@@ -1,3 +1,6 @@
+#ifndef __BISCUIT_
+#define __BISCUIT_
+
 #include "biscuit_core.h"
 
 /*
@@ -35,3 +38,5 @@ void bisc_ledOn(uint8_t led, uint8_t color, uint8_t intensity);
  * led: 
  */
 void bisc_ledOff(uint8_t led);
+
+#endif

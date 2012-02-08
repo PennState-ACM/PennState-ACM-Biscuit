@@ -1,3 +1,6 @@
+#ifndef __BISCUIT_CORE_
+#define __BISCUIT_CORE_
+
 #include <stdlib.h>
 #include <avr/io.h>
 
@@ -155,3 +158,5 @@ void bisc_sendIR(uint8_t value);
  *  should not be larger than the sensor packet returned
  */
 int8_t bisc_sensors(uint8_t sensor, uint8_t* values, uint8_t size);
+
+#endif

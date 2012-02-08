@@ -1,7 +1,5 @@
 #include "biscuit.h"
 
-
-
 void bisc_init() {
     bisc_start();
     bisc_setMode(BISC_MODE_SAFE);
