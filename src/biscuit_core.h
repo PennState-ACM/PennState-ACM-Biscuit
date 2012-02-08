@@ -15,6 +15,20 @@
 
 
 /*
+ * Registry values
+ */
+#define BISC_REG_IO_DATA        USR0A
+#define BISC_REG_IO_STATUS      UCSR0A
+
+/*
+ * Buffer settings
+ * NOTE: For all I/O buffer information,
+ *  See that Atmega168 Reference (Document 02), Section 18.9
+ */
+#define BISC_BUFFER_EMPTY       0x20
+#define BISC_BUFFER_FULL        0x80
+
+/*
  * LED values
  */
 #define BISC_LED_POWER          0x08
@@ -103,19 +117,75 @@
 #define BISC_SENS_RVELOCITY     41
 #define BISC_SENS_LVELOCITY     42
 
-//Sensor boundary values
+/*
+ * Sensor boundary values
+ */
 #define BISC_SENS_MIN           0
 #define BISC_SENS_MAX           42
 
 
-//Error values
+/*
+ * Error Values
+ */
 #define BISC_ERR_NONE           0
 #define BISC_ERR_INVALID        -1
 
 
-//Macros to get the high and low bytes
+/*
+ * Boolean values
+ */
+#define BISC_TRUE               1
+#define BISC_FALSE              0
+
+/*
+ * Macros to get the high and low bytes
+ */
 #define BISC_HIGH_BYTE(xValue)  ((uint8_t)(((xValue) >> 8) & 0x00FF))
 #define BISC_LOW_BYTE(xValue)   ((uint8_t)((xValue) & 0x00FF))
+
+/*
+ * Macros to set and check the state of pins
+ *
+ * Conventions:
+ *      H   =   High
+ *      L   =   Low
+ *      C   =   Check
+ *      S   =   Set
+ *      U   =   Unset
+ *
+ *  e.g. BISC_PIN_SH = set the pin to high
+ */
+#define BISC_PIN_H              0x80
+#define BISC_PIN_L              0x04
+#define BISC_PIN_CH(pin)        ((pin) & BISC_PIN_H)
+#define BISC_PIN_CL(pin)        ((pin) & BISC_PIN_L)
+#define BISC_PIN_SH(pin)        ((pin) |= BISC_PIN_H)
+#define BISC_PIN_SL(pin)        ((pin) |= BISC_PIN_L)
+#define BISC_PIN_UH(pin)        ((pin) &= ~BISC_PIN_H)
+#define BISC_PIN_UL(pin)        ((pin) &= ~BISC_PIN_L)
+
+
+/*
+ * Transfers a byte to the Create
+ */
+void bisc_buffer_send(uint8_t value);
+
+/*
+ * Transfers a byte from the Create
+ */
+uint8_t bisc_buffer_read();
+
+/*
+ * Returns BISC_TRUE if a byte is available for recieving
+ * Returns BISC_FALSE otherwise
+ */
+uint8_t bisc_buffer_isReady();
+
+/*
+ * Clears the byte being received in the data IO buffer
+ * And sets the control register to be able to send
+ */
+void bisc_buffer_clear();
 
 /*
  * Starts the Open Interface
