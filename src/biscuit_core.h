@@ -2,7 +2,6 @@
 #define __BISCUIT_CORE_
 
 #include <stdlib.h>
-
 #include <avr/io.h>
 
 

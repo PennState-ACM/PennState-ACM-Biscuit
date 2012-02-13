@@ -54,7 +54,7 @@ DEBUG = stabs
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
-EXTRAINCDIRS = include/
+EXTRAINCDIRS = include
 
 # Compiler flag to set the C Standard level.
 #     c89   = "ANSI" C
