@@ -2,6 +2,7 @@
 #define __BISCUIT_CORE_
 
 #include <stdlib.h>
+
 #include <avr/io.h>
 
 
@@ -206,6 +207,16 @@
 #define BISC_PIN_UL(pin)        ((pin) &= ~BISC_PIN_L)
 
 
+
+/*
+ * Global Variables
+ */
+uint8_t BISC_IO_DATA_REG;
+//uint16_t BISC_BAUD_REG;
+
+
+
+
 /*
  * Transfers a byte to the Create
  */
@@ -214,24 +225,24 @@ void bisc_buffer_send(uint8_t value);
 /*
  * Transfers a byte from the Create
  */
-uint8_t bisc_buffer_read();
+uint8_t bisc_buffer_read(void);
 
 /*
  * Returns BISC_TRUE if a byte is available for recieving
  * Returns BISC_FALSE otherwise
  */
-uint8_t bisc_buffer_isReady();
+uint8_t bisc_buffer_isReady(void);
 
 /*
  * Clears the byte being received in the data IO buffer
  * And sets the control register to be able to send
  */
-void bisc_buffer_clear();
+void bisc_buffer_clear(void);
 
 /*
  * Starts the Open Interface
  */
-void bisc_start();
+void bisc_start(void);
 
 /*
  * Set the baud rate of the Create

@@ -1,5 +1,6 @@
 #include "biscuit_core.h"
 
+
 void bisc_buffer_send(uint8_t value) {
 	//stall until the buffer is empty
 	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_EMPTY));
@@ -8,7 +9,8 @@ void bisc_buffer_send(uint8_t value) {
 	BISC_IO_DATA_REG = value;
 }
 
-uint8_t bisc_buffer_read() {
+
+uint8_t bisc_buffer_read(void) {
 	//stall until the buffer is full
 	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL));
 
@@ -16,7 +18,8 @@ uint8_t bisc_buffer_read() {
 	return BISC_IO_DATA_REG;
 }
 
-uint8_t bisc_buffer_isReady() {
+
+uint8_t bisc_buffer_isReady(void) {
 	if(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL) {
 		return BISC_TRUE;
 	} else {
@@ -24,14 +27,17 @@ uint8_t bisc_buffer_isReady() {
 	}
 }
 
-void bisc_buffer_clear() {
+
+void bisc_buffer_clear(void) {
 	BISC_IO_DATA_REG = 0;
 	BISC_IO_STATUS_REG = BISC_IO_STATUS_EMPTY;
 }
 
-void bisc_start() {
+
+void bisc_start(void) {
     bisc_buffer_send(BISC_CMD_START);
 }
+
 
 void bisc_baud(uint8_t value) {
 	bisc_buffer_send(BISC_CMD_BAUD);
@@ -66,8 +72,10 @@ void bisc_sendIR(uint8_t value) {
     bisc_buffer_send(value);
 }
 
+
 int8_t bisc_sensors(uint8_t sensor, uint8_t* values, uint8_t size) {
 	//exit on invalid sensor data or null values
+	//warning: comparison is always false due to limited range of data type
 	if(sensor < BISC_SENS_MIN || sensor > BISC_SENS_MAX 
 		|| values == NULL) {
 		return BISC_ERR_INVALID;

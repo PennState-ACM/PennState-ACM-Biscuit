@@ -1,12 +1,10 @@
 #ifndef __BISCUIT_
 #define __BISCUIT_
 
-#include "biscuit_core.h"
 #include <avr/interrupt.h>
-#include <avr/io.h>
 #include <util/delay.h>
-#include <stdlib.h>
 
+#include "biscuit_core.h"
 
 /*
  * Power related macros
@@ -20,15 +18,16 @@
 #define BISC_PWR_TOGGLE_LOW()       (PORTD &= ~BISC_PWR_HIGH)
 #define BISC_PWR_IS_ON              (PINB & BISC_PWR_SENSE)
 
+
 /*
  * Prepares the Create to execute programs
  */
-void bisc_prepare();
+void bisc_prepare(void);
 
 /*
  * Powers on the Create
  */
-void bisc_power_on();
+void bisc_power_on(void);
 
 /*
  * Sets the same baud rate for the Create and for the Command module
@@ -40,17 +39,17 @@ void bisc_baud_all(uint8_t code);
 /*
  * Sets the operating mode of Create to passive
  */
-void bisc_mode_passive();
+void bisc_mode_passive(void);
 
 /*
  * Sets the operating mode of Create to safe
  */
-void bisc_mode_safe();
+void bisc_mode_safe(void);
 
 /*
  * Sets the operating mode of Create to full
  */
-void bisc_mode_full();
+void bisc_mode_full(void);
 
 /*
  * Turns on the given led with given color and intensity
@@ -72,6 +71,6 @@ void bisc_led_off(uint8_t led);
 /*
  * Busy clock cycles to stall for time in milliseconds
  */
-void bisc_delay(uint16_t ms)
+void bisc_delay(uint16_t ms);
 
 #endif

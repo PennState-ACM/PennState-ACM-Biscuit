@@ -39,7 +39,10 @@ FORMAT = ihex
 TARGET = dist/biscuit
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(wildcard src/*.h) $(wildcard src/*.c)
+HEADERS = $(wildcard src/*.h)  
+SRC = $(wildcard src/*.c)
+#SRC = $(HEADERS) $(SOURCES)
+
 
 # Optimization level, can be [0, 1, 2, 3, s]. 
 #     0 = turn off optimization. s = optimize for size.
