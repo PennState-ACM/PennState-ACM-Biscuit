@@ -1,13 +1,12 @@
 #include "main.h"
 
 int main(void) {
-    bisc_power_on();
     bisc_prepare();
 
-    //bisc_led_on(BISC_LED_POWER, 255, 255);
+    bisc_led_on(BISC_LED_POWER, 255, 255);
 
     // Testing the song functions
-    uint8_t *song[10];
+    uint8_t song[4];
 
     song[0] = 35;
     song[1] = 64;
