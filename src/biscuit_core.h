@@ -13,6 +13,8 @@
 #define BISC_CMD_LED            139
 #define BISC_CMD_SENSORS        142
 #define BISC_CMD_SEND_IR        151
+#define BISC_CMD_DEFINE_SONG    140
+#define BISC_CMD_PLAY_SONG      141
 
 
 /*

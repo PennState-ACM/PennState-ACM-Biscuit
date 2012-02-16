@@ -110,3 +110,20 @@ void bisc_delay(uint16_t ms) {
     //for now, just busy wait
     _delay_ms(ms);
 }
+
+
+void bisc_define_song(uint8_t song_num, uint8_t song_len, uint8_t *notes) {
+    bisc_buffer_send(BISC_CMD_DEFINE_SONG);
+    bisc_buffer_send(song_num);
+    bisc_buffer_send(song_len);
+
+    for(int i=0; i<song_len*2; i++) {
+        bisc_buffer_send(notes[i]);
+    }
+}
+
+
+void bisc_play_song(uint16_t song_num) {
+    bisc_buffer_send(BISC_CMD_PLAY_SONG);
+    bisc_buffer_send(song_num);
+}

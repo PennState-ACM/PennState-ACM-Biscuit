@@ -73,4 +73,15 @@ void bisc_led_off(uint8_t led);
  */
 void bisc_delay(uint16_t ms);
 
+
+/*
+ * Define a song to play
+ */
+void bisc_define_song(uint8_t song_num, uint8_t song_len, uint8_t *notes);
+
+/*
+ * Play the given song. Song must have previously defined
+ */
+void bisc_play_song(uint16_t song_num);
+
 #endif
