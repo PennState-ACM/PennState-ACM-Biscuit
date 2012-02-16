@@ -1,0 +1,1195 @@
+
+dist/biscuit.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000068c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000001  00800100  00800100  00000700  2**0
+                  ALLOC
+  2 .stab         000028f8  00000000  00000000  00000700  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      00000d12  00000000  00000000  00002ff8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   8:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  10:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  14:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  18:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  1c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  20:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  24:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  28:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  2c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  30:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  34:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  38:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  3c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  40:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  44:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  48:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  4c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  50:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  54:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  58:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  5c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  60:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  64:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d4 e0       	ldi	r29, 0x04	; 4
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_clear_bss>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	01 c0       	rjmp	.+2      	; 0x7e <.do_clear_bss_start>
+
+0000007c <.do_clear_bss_loop>:
+  7c:	1d 92       	st	X+, r1
+
+0000007e <.do_clear_bss_start>:
+  7e:	a1 30       	cpi	r26, 0x01	; 1
+  80:	b1 07       	cpc	r27, r17
+  82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
+  84:	0e 94 c7 01 	call	0x38e	; 0x38e <main>
+  88:	0c 94 44 03 	jmp	0x688	; 0x688 <_exit>
+
+0000008c <__bad_interrupt>:
+  8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000090 <bisc_baud_atm_from_create>:
+
+uint16_t bisc_baud_atm_from_create(uint8_t code) {
+    uint16_t atm_code = 0;
+    
+    //not sure if switch statements supported -- using if/else
+    if(code == BISC_BAUD_300) {
+  90:	88 23       	and	r24, r24
+  92:	a9 f0       	breq	.+42     	; 0xbe <bisc_baud_atm_from_create+0x2e>
+        atm_code = BISC_ATM_BAUD_300;
+    } else if(code == BISC_BAUD_600) {
+  94:	81 30       	cpi	r24, 0x01	; 1
+  96:	b1 f0       	breq	.+44     	; 0xc4 <bisc_baud_atm_from_create+0x34>
+        atm_code = BISC_ATM_BAUD_600;
+    } else if(code == BISC_BAUD_1200) {
+  98:	82 30       	cpi	r24, 0x02	; 2
+  9a:	b9 f0       	breq	.+46     	; 0xca <bisc_baud_atm_from_create+0x3a>
+        atm_code = BISC_ATM_BAUD_1200;
+    } else if(code == BISC_BAUD_2400) {
+  9c:	83 30       	cpi	r24, 0x03	; 3
+  9e:	c1 f0       	breq	.+48     	; 0xd0 <bisc_baud_atm_from_create+0x40>
+        atm_code = BISC_ATM_BAUD_2400;
+    } else if(code == BISC_BAUD_4800) {
+  a0:	84 30       	cpi	r24, 0x04	; 4
+  a2:	c9 f0       	breq	.+50     	; 0xd6 <bisc_baud_atm_from_create+0x46>
+        atm_code = BISC_ATM_BAUD_4800;
+    } else if(code == BISC_BAUD_9600) {
+  a4:	85 30       	cpi	r24, 0x05	; 5
+  a6:	d1 f0       	breq	.+52     	; 0xdc <bisc_baud_atm_from_create+0x4c>
+        atm_code = BISC_ATM_BAUD_9600;
+    } else if(code == BISC_BAUD_14400) {
+  a8:	86 30       	cpi	r24, 0x06	; 6
+  aa:	d9 f0       	breq	.+54     	; 0xe2 <bisc_baud_atm_from_create+0x52>
+        atm_code = BISC_ATM_BAUD_14400;
+    } else if(code == BISC_BAUD_28800) {
+  ac:	88 30       	cpi	r24, 0x08	; 8
+  ae:	e1 f0       	breq	.+56     	; 0xe8 <bisc_baud_atm_from_create+0x58>
+        atm_code = BISC_ATM_BAUD_28800;
+    } else if(code == BISC_BAUD_57600) {
+  b0:	8a 30       	cpi	r24, 0x0A	; 10
+  b2:	e9 f0       	breq	.+58     	; 0xee <bisc_baud_atm_from_create+0x5e>
+        atm_code = BISC_ATM_BAUD_57600;
+    } else if(code == BISC_BAUD_115200) {
+  b4:	8b 30       	cpi	r24, 0x0B	; 11
+  b6:	f1 f0       	breq	.+60     	; 0xf4 <bisc_baud_atm_from_create+0x64>
+    } 
+}
+
+
+uint16_t bisc_baud_atm_from_create(uint8_t code) {
+    uint16_t atm_code = 0;
+  b8:	20 e0       	ldi	r18, 0x00	; 0
+  ba:	30 e0       	ldi	r19, 0x00	; 0
+  bc:	1d c0       	rjmp	.+58     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    
+    //not sure if switch statements supported -- using if/else
+    if(code == BISC_BAUD_300) {
+        atm_code = BISC_ATM_BAUD_300;
+  be:	2f ef       	ldi	r18, 0xFF	; 255
+  c0:	3e e0       	ldi	r19, 0x0E	; 14
+  c2:	1a c0       	rjmp	.+52     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_600) {
+        atm_code = BISC_ATM_BAUD_600;
+  c4:	2f e7       	ldi	r18, 0x7F	; 127
+  c6:	37 e0       	ldi	r19, 0x07	; 7
+  c8:	17 c0       	rjmp	.+46     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_1200) {
+        atm_code = BISC_ATM_BAUD_1200;
+  ca:	2f eb       	ldi	r18, 0xBF	; 191
+  cc:	33 e0       	ldi	r19, 0x03	; 3
+  ce:	14 c0       	rjmp	.+40     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_2400) {
+        atm_code = BISC_ATM_BAUD_2400;
+  d0:	2f ed       	ldi	r18, 0xDF	; 223
+  d2:	31 e0       	ldi	r19, 0x01	; 1
+  d4:	11 c0       	rjmp	.+34     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_4800) {
+        atm_code = BISC_ATM_BAUD_4800;
+  d6:	2f ee       	ldi	r18, 0xEF	; 239
+  d8:	30 e0       	ldi	r19, 0x00	; 0
+  da:	0e c0       	rjmp	.+28     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_9600) {
+        atm_code = BISC_ATM_BAUD_9600;
+  dc:	27 e7       	ldi	r18, 0x77	; 119
+  de:	30 e0       	ldi	r19, 0x00	; 0
+  e0:	0b c0       	rjmp	.+22     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_14400) {
+        atm_code = BISC_ATM_BAUD_14400;
+  e2:	2f e4       	ldi	r18, 0x4F	; 79
+  e4:	30 e0       	ldi	r19, 0x00	; 0
+  e6:	08 c0       	rjmp	.+16     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_28800) {
+        atm_code = BISC_ATM_BAUD_28800;
+  e8:	27 e2       	ldi	r18, 0x27	; 39
+  ea:	30 e0       	ldi	r19, 0x00	; 0
+  ec:	05 c0       	rjmp	.+10     	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_57600) {
+        atm_code = BISC_ATM_BAUD_57600;
+  ee:	23 e1       	ldi	r18, 0x13	; 19
+  f0:	30 e0       	ldi	r19, 0x00	; 0
+  f2:	02 c0       	rjmp	.+4      	; 0xf8 <bisc_baud_atm_from_create+0x68>
+    } else if(code == BISC_BAUD_115200) {
+        atm_code = BISC_ATM_BAUD_115200;
+  f4:	29 e0       	ldi	r18, 0x09	; 9
+  f6:	30 e0       	ldi	r19, 0x00	; 0
+    }
+
+    return atm_code;
+}
+  f8:	c9 01       	movw	r24, r18
+  fa:	08 95       	ret
+
+000000fc <bisc_mode_passive>:
+
+
+void bisc_mode_passive(void) {
+    bisc_setMode(BISC_MODE_PASSIVE);
+  fc:	80 e8       	ldi	r24, 0x80	; 128
+  fe:	0e 94 6f 01 	call	0x2de	; 0x2de <bisc_setMode>
+}
+ 102:	08 95       	ret
+
+00000104 <bisc_mode_safe>:
+
+
+void bisc_mode_safe(void) {
+    bisc_setMode(BISC_MODE_SAFE);
+ 104:	83 e8       	ldi	r24, 0x83	; 131
+ 106:	0e 94 6f 01 	call	0x2de	; 0x2de <bisc_setMode>
+}
+ 10a:	08 95       	ret
+
+0000010c <bisc_mode_full>:
+
+
+void bisc_mode_full(void) {
+    bisc_setMode(BISC_MODE_FULL);
+ 10c:	84 e8       	ldi	r24, 0x84	; 132
+ 10e:	0e 94 6f 01 	call	0x2de	; 0x2de <bisc_setMode>
+}
+ 112:	08 95       	ret
+
+00000114 <bisc_led_on>:
+
+
+void bisc_led_on(uint8_t led, uint8_t color, uint8_t intensity) {
+    bisc_led(led, color, intensity);
+ 114:	0e 94 72 01 	call	0x2e4	; 0x2e4 <bisc_led>
+}
+ 118:	08 95       	ret
+
+0000011a <bisc_led_off>:
+
+
+void bisc_led_off(uint8_t led) {
+    bisc_led(led, 0, 0);
+ 11a:	60 e0       	ldi	r22, 0x00	; 0
+ 11c:	40 e0       	ldi	r20, 0x00	; 0
+ 11e:	0e 94 72 01 	call	0x2e4	; 0x2e4 <bisc_led>
+}
+ 122:	08 95       	ret
+
+00000124 <bisc_delay>:
+
+
+void bisc_delay(uint16_t ms) {
+ 124:	ef 92       	push	r14
+ 126:	ff 92       	push	r15
+ 128:	0f 93       	push	r16
+ 12a:	1f 93       	push	r17
+    //for now, just busy wait
+    _delay_ms(ms);
+ 12c:	bc 01       	movw	r22, r24
+ 12e:	80 e0       	ldi	r24, 0x00	; 0
+ 130:	90 e0       	ldi	r25, 0x00	; 0
+ 132:	0e 94 2b 02 	call	0x456	; 0x456 <__floatunsisf>
+ */
+void
+_delay_ms(double __ms)
+{
+	uint16_t __ticks;
+	double __tmp = ((F_CPU) / 4e3) * __ms;
+ 136:	20 e0       	ldi	r18, 0x00	; 0
+ 138:	30 e0       	ldi	r19, 0x00	; 0
+ 13a:	40 e9       	ldi	r20, 0x90	; 144
+ 13c:	55 e4       	ldi	r21, 0x45	; 69
+ 13e:	0e 94 b9 02 	call	0x572	; 0x572 <__mulsf3>
+ 142:	7b 01       	movw	r14, r22
+ 144:	8c 01       	movw	r16, r24
+	if (__tmp < 1.0)
+ 146:	7f 2d       	mov	r23, r15
+ 148:	91 2f       	mov	r25, r17
+ 14a:	20 e0       	ldi	r18, 0x00	; 0
+ 14c:	30 e0       	ldi	r19, 0x00	; 0
+ 14e:	40 e8       	ldi	r20, 0x80	; 128
+ 150:	5f e3       	ldi	r21, 0x3F	; 63
+ 152:	0e 94 fb 01 	call	0x3f6	; 0x3f6 <__cmpsf2>
+ 156:	87 fd       	sbrc	r24, 7
+ 158:	13 c0       	rjmp	.+38     	; 0x180 <bisc_delay+0x5c>
+		__ticks = 1;
+	else if (__tmp > 65535)
+ 15a:	6e 2d       	mov	r22, r14
+ 15c:	7f 2d       	mov	r23, r15
+ 15e:	80 2f       	mov	r24, r16
+ 160:	91 2f       	mov	r25, r17
+ 162:	20 e0       	ldi	r18, 0x00	; 0
+ 164:	3f ef       	ldi	r19, 0xFF	; 255
+ 166:	4f e7       	ldi	r20, 0x7F	; 127
+ 168:	57 e4       	ldi	r21, 0x47	; 71
+ 16a:	0e 94 b5 02 	call	0x56a	; 0x56a <__gesf2>
+ 16e:	18 16       	cp	r1, r24
+ 170:	54 f0       	brlt	.+20     	; 0x186 <bisc_delay+0x62>
+		__ticks = 0;	/* i.e. 65536 */
+	else
+		__ticks = (uint16_t)__tmp;
+ 172:	6e 2d       	mov	r22, r14
+ 174:	7f 2d       	mov	r23, r15
+ 176:	80 2f       	mov	r24, r16
+ 178:	91 2f       	mov	r25, r17
+ 17a:	0e 94 ff 01 	call	0x3fe	; 0x3fe <__fixunssfsi>
+ 17e:	05 c0       	rjmp	.+10     	; 0x18a <bisc_delay+0x66>
+_delay_ms(double __ms)
+{
+	uint16_t __ticks;
+	double __tmp = ((F_CPU) / 4e3) * __ms;
+	if (__tmp < 1.0)
+		__ticks = 1;
+ 180:	61 e0       	ldi	r22, 0x01	; 1
+ 182:	70 e0       	ldi	r23, 0x00	; 0
+ 184:	02 c0       	rjmp	.+4      	; 0x18a <bisc_delay+0x66>
+	else if (__tmp > 65535)
+		__ticks = 0;	/* i.e. 65536 */
+ 186:	60 e0       	ldi	r22, 0x00	; 0
+ 188:	70 e0       	ldi	r23, 0x00	; 0
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 18a:	cb 01       	movw	r24, r22
+ 18c:	01 97       	sbiw	r24, 0x01	; 1
+ 18e:	f1 f7       	brne	.-4      	; 0x18c <bisc_delay+0x68>
+}
+ 190:	1f 91       	pop	r17
+ 192:	0f 91       	pop	r16
+ 194:	ff 90       	pop	r15
+ 196:	ef 90       	pop	r14
+ 198:	08 95       	ret
+
+0000019a <bisc_baud_all>:
+}
+
+
+void bisc_baud_all(uint8_t code) {
+    // warning: comparison is always true due to limited range of data type
+    if(code >= 0 && code <= BISC_BAUD_MAX) {
+ 19a:	8c 30       	cpi	r24, 0x0C	; 12
+ 19c:	40 f4       	brcc	.+16     	; 0x1ae <bisc_baud_all+0x14>
+        bisc_baud(code);
+ 19e:	0e 94 5c 01 	call	0x2b8	; 0x2b8 <bisc_baud>
+
+        //with the Create's baud set, set the command baud to match it
+        cli();
+ 1a2:	f8 94       	cli
+        //if we value interrupts more than space preserved, move this call outside
+        //uint16_t BISC_BAUD_REG = bisc_baud_atm_from_create(code);
+        sei();
+ 1a4:	78 94       	sei
+        bisc_delay(100);
+ 1a6:	84 e6       	ldi	r24, 0x64	; 100
+ 1a8:	90 e0       	ldi	r25, 0x00	; 0
+ 1aa:	0e 94 92 00 	call	0x124	; 0x124 <bisc_delay>
+ 1ae:	08 95       	ret
+
+000001b0 <bisc_power_on>:
+}
+
+
+void bisc_power_on(void) {
+    //check if the power is already on
+    if(!BISC_PWR_IS_ON) {
+ 1b0:	1d 9b       	sbis	0x03, 5	; 3
+ 1b2:	0b c0       	rjmp	.+22     	; 0x1ca <bisc_power_on+0x1a>
+ 1b4:	08 95       	ret
+        //loop until the power is on
+        while(!BISC_PWR_IS_ON) {
+            //a power tranisition happens when the powr toggles low to high
+            //delays are included to let the create notice the change
+            BISC_PWR_TOGGLE_LOW();
+ 1b6:	5f 98       	cbi	0x0b, 7	; 11
+            bisc_delay(100);
+ 1b8:	84 e6       	ldi	r24, 0x64	; 100
+ 1ba:	90 e0       	ldi	r25, 0x00	; 0
+ 1bc:	0e 94 92 00 	call	0x124	; 0x124 <bisc_delay>
+            BISC_PWR_TOGGLE_HIGH();
+ 1c0:	5f 9a       	sbi	0x0b, 7	; 11
+            bisc_delay(100);
+ 1c2:	84 e6       	ldi	r24, 0x64	; 100
+ 1c4:	90 e0       	ldi	r25, 0x00	; 0
+ 1c6:	0e 94 92 00 	call	0x124	; 0x124 <bisc_delay>
+
+void bisc_power_on(void) {
+    //check if the power is already on
+    if(!BISC_PWR_IS_ON) {
+        //loop until the power is on
+        while(!BISC_PWR_IS_ON) {
+ 1ca:	1d 9b       	sbis	0x03, 5	; 3
+ 1cc:	f4 cf       	rjmp	.-24     	; 0x1b6 <bisc_power_on+0x6>
+            bisc_delay(100);
+            BISC_PWR_TOGGLE_HIGH();
+            bisc_delay(100);
+        }
+        //toggle power back to low
+        BISC_PWR_TOGGLE_LOW();
+ 1ce:	5f 98       	cbi	0x0b, 7	; 11
+
+        //delay for create bootloader
+        bisc_delay(2000);
+ 1d0:	80 ed       	ldi	r24, 0xD0	; 208
+ 1d2:	97 e0       	ldi	r25, 0x07	; 7
+ 1d4:	0e 94 92 00 	call	0x124	; 0x124 <bisc_delay>
+ 1d8:	08 95       	ret
+
+000001da <bisc_prepare>:
+#include "biscuit.h"
+
+
+void bisc_prepare(void) {
+    //TODO: when we handle interrupt stuff, it will go here
+    cli();
+ 1da:	f8 94       	cli
+
+    sei();
+ 1dc:	78 94       	sei
+
+    bisc_led_off(BISC_LED_BOTH);
+ 1de:	8a e0       	ldi	r24, 0x0A	; 10
+ 1e0:	0e 94 8d 00 	call	0x11a	; 0x11a <bisc_led_off>
+    bisc_power_on();
+ 1e4:	0e 94 d8 00 	call	0x1b0	; 0x1b0 <bisc_power_on>
+    bisc_start();
+ 1e8:	0e 94 58 01 	call	0x2b0	; 0x2b0 <bisc_start>
+    bisc_baud_all(BISC_BAUD_REC);
+ 1ec:	88 e0       	ldi	r24, 0x08	; 8
+ 1ee:	0e 94 cd 00 	call	0x19a	; 0x19a <bisc_baud_all>
+    bisc_mode_safe();
+ 1f2:	0e 94 82 00 	call	0x104	; 0x104 <bisc_mode_safe>
+}
+ 1f6:	08 95       	ret
+
+000001f8 <bisc_define_song>:
+    //for now, just busy wait
+    _delay_ms(ms);
+}
+
+
+void bisc_define_song(uint8_t song_num, uint8_t song_len, uint8_t *notes) {
+ 1f8:	cf 92       	push	r12
+ 1fa:	df 92       	push	r13
+ 1fc:	ef 92       	push	r14
+ 1fe:	ff 92       	push	r15
+ 200:	0f 93       	push	r16
+ 202:	1f 93       	push	r17
+ 204:	df 93       	push	r29
+ 206:	cf 93       	push	r28
+ 208:	00 d0       	rcall	.+0      	; 0x20a <bisc_define_song+0x12>
+ 20a:	cd b7       	in	r28, 0x3d	; 61
+ 20c:	de b7       	in	r29, 0x3e	; 62
+ 20e:	e8 2e       	mov	r14, r24
+ 210:	06 2f       	mov	r16, r22
+    bisc_buffer_send(BISC_CMD_DEFINE_SONG);
+ 212:	8c e8       	ldi	r24, 0x8C	; 140
+ 214:	49 83       	std	Y+1, r20	; 0x01
+ 216:	5a 83       	std	Y+2, r21	; 0x02
+ 218:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+    bisc_buffer_send(song_num);
+ 21c:	8e 2d       	mov	r24, r14
+ 21e:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+    bisc_buffer_send(song_len);
+ 222:	80 2f       	mov	r24, r16
+ 224:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+
+    for(int i=0; i<song_len*2; i++) {
+ 228:	10 e0       	ldi	r17, 0x00	; 0
+ 22a:	00 0f       	add	r16, r16
+ 22c:	11 1f       	adc	r17, r17
+ 22e:	49 81       	ldd	r20, Y+1	; 0x01
+ 230:	5a 81       	ldd	r21, Y+2	; 0x02
+ 232:	e4 2e       	mov	r14, r20
+ 234:	f5 2e       	mov	r15, r21
+ 236:	cc 24       	eor	r12, r12
+ 238:	dd 24       	eor	r13, r13
+ 23a:	08 c0       	rjmp	.+16     	; 0x24c <bisc_define_song+0x54>
+        bisc_buffer_send(notes[i]);
+ 23c:	f7 01       	movw	r30, r14
+ 23e:	81 91       	ld	r24, Z+
+ 240:	7f 01       	movw	r14, r30
+ 242:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+void bisc_define_song(uint8_t song_num, uint8_t song_len, uint8_t *notes) {
+    bisc_buffer_send(BISC_CMD_DEFINE_SONG);
+    bisc_buffer_send(song_num);
+    bisc_buffer_send(song_len);
+
+    for(int i=0; i<song_len*2; i++) {
+ 246:	08 94       	sec
+ 248:	c1 1c       	adc	r12, r1
+ 24a:	d1 1c       	adc	r13, r1
+ 24c:	c0 16       	cp	r12, r16
+ 24e:	d1 06       	cpc	r13, r17
+ 250:	ac f3       	brlt	.-22     	; 0x23c <bisc_define_song+0x44>
+        bisc_buffer_send(notes[i]);
+    }
+}
+ 252:	0f 90       	pop	r0
+ 254:	0f 90       	pop	r0
+ 256:	cf 91       	pop	r28
+ 258:	df 91       	pop	r29
+ 25a:	1f 91       	pop	r17
+ 25c:	0f 91       	pop	r16
+ 25e:	ff 90       	pop	r15
+ 260:	ef 90       	pop	r14
+ 262:	df 90       	pop	r13
+ 264:	cf 90       	pop	r12
+ 266:	08 95       	ret
+
+00000268 <bisc_play_song>:
+
+
+void bisc_play_song(uint16_t song_num) {
+ 268:	1f 93       	push	r17
+ 26a:	18 2f       	mov	r17, r24
+    bisc_buffer_send(BISC_CMD_PLAY_SONG);
+ 26c:	8d e8       	ldi	r24, 0x8D	; 141
+ 26e:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+    bisc_buffer_send(song_num);
+ 272:	81 2f       	mov	r24, r17
+ 274:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+}
+ 278:	1f 91       	pop	r17
+ 27a:	08 95       	ret
+
+0000027c <bisc_buffer_send>:
+#include "biscuit_core.h"
+
+
+void bisc_buffer_send(uint8_t value) {
+	//stall until the buffer is empty
+	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_EMPTY));
+ 27c:	90 91 c0 00 	lds	r25, 0x00C0
+ 280:	95 ff       	sbrs	r25, 5
+ 282:	fc cf       	rjmp	.-8      	; 0x27c <bisc_buffer_send>
+
+	//write the balue to the data buffer
+	BISC_IO_DATA_REG = value;
+ 284:	80 93 00 01 	sts	0x0100, r24
+}
+ 288:	08 95       	ret
+
+0000028a <bisc_buffer_read>:
+
+
+uint8_t bisc_buffer_read(void) {
+	//stall until the buffer is full
+	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL));
+ 28a:	80 91 c0 00 	lds	r24, 0x00C0
+ 28e:	87 ff       	sbrs	r24, 7
+ 290:	fc cf       	rjmp	.-8      	; 0x28a <bisc_buffer_read>
+
+	//read the data
+	return BISC_IO_DATA_REG;
+}
+ 292:	80 91 00 01 	lds	r24, 0x0100
+ 296:	08 95       	ret
+
+00000298 <bisc_buffer_isReady>:
+
+
+uint8_t bisc_buffer_isReady(void) {
+	if(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL) {
+ 298:	80 91 c0 00 	lds	r24, 0x00C0
+		return BISC_TRUE;
+	} else {
+		return BISC_FALSE;
+	}
+}
+ 29c:	88 1f       	adc	r24, r24
+ 29e:	88 27       	eor	r24, r24
+ 2a0:	88 1f       	adc	r24, r24
+ 2a2:	08 95       	ret
+
+000002a4 <bisc_buffer_clear>:
+
+
+void bisc_buffer_clear(void) {
+	BISC_IO_DATA_REG = 0;
+ 2a4:	10 92 00 01 	sts	0x0100, r1
+	BISC_IO_STATUS_REG = BISC_IO_STATUS_EMPTY;
+ 2a8:	80 e2       	ldi	r24, 0x20	; 32
+ 2aa:	80 93 c0 00 	sts	0x00C0, r24
+}
+ 2ae:	08 95       	ret
+
+000002b0 <bisc_start>:
+
+
+void bisc_start(void) {
+    bisc_buffer_send(BISC_CMD_START);
+ 2b0:	80 e8       	ldi	r24, 0x80	; 128
+ 2b2:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+}
+ 2b6:	08 95       	ret
+
+000002b8 <bisc_baud>:
+
+
+void bisc_baud(uint8_t value) {
+ 2b8:	1f 93       	push	r17
+ 2ba:	18 2f       	mov	r17, r24
+	bisc_buffer_send(BISC_CMD_BAUD);
+ 2bc:	81 e8       	ldi	r24, 0x81	; 129
+ 2be:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+	
+	//enable the transfer interrupt
+	BISC_IO_STATUS_REG |= BISC_IO_STATUS_TXIE;
+ 2c2:	80 91 c0 00 	lds	r24, 0x00C0
+ 2c6:	80 64       	ori	r24, 0x40	; 64
+ 2c8:	80 93 c0 00 	sts	0x00C0, r24
+	
+	//send the code
+	bisc_buffer_send(value);
+ 2cc:	81 2f       	mov	r24, r17
+ 2ce:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+	
+	//stall until the interrupt occurs
+	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_TXIE));
+ 2d2:	80 91 c0 00 	lds	r24, 0x00C0
+ 2d6:	86 ff       	sbrs	r24, 6
+ 2d8:	fc cf       	rjmp	.-8      	; 0x2d2 <bisc_baud+0x1a>
+}
+ 2da:	1f 91       	pop	r17
+ 2dc:	08 95       	ret
+
+000002de <bisc_setMode>:
+
+
+void bisc_setMode(uint8_t mode) {
+    bisc_buffer_send(mode);
+ 2de:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+}
+ 2e2:	08 95       	ret
+
+000002e4 <bisc_led>:
+
+
+//TODO: Check for out-of-bounds values
+void bisc_led(uint8_t led, uint8_t color, uint8_t intensity) {
+ 2e4:	1f 93       	push	r17
+ 2e6:	df 93       	push	r29
+ 2e8:	cf 93       	push	r28
+ 2ea:	00 d0       	rcall	.+0      	; 0x2ec <bisc_led+0x8>
+ 2ec:	cd b7       	in	r28, 0x3d	; 61
+ 2ee:	de b7       	in	r29, 0x3e	; 62
+ 2f0:	18 2f       	mov	r17, r24
+    bisc_buffer_send(BISC_CMD_LED);
+ 2f2:	8b e8       	ldi	r24, 0x8B	; 139
+ 2f4:	4a 83       	std	Y+2, r20	; 0x02
+ 2f6:	69 83       	std	Y+1, r22	; 0x01
+ 2f8:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+    bisc_buffer_send(led);
+ 2fc:	81 2f       	mov	r24, r17
+ 2fe:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+    bisc_buffer_send(color);
+ 302:	69 81       	ldd	r22, Y+1	; 0x01
+ 304:	86 2f       	mov	r24, r22
+ 306:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+    bisc_buffer_send(intensity);
+ 30a:	4a 81       	ldd	r20, Y+2	; 0x02
+ 30c:	84 2f       	mov	r24, r20
+ 30e:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+}
+ 312:	0f 90       	pop	r0
+ 314:	0f 90       	pop	r0
+ 316:	cf 91       	pop	r28
+ 318:	df 91       	pop	r29
+ 31a:	1f 91       	pop	r17
+ 31c:	08 95       	ret
+
+0000031e <bisc_sendIR>:
+
+
+void bisc_sendIR(uint8_t value) {
+ 31e:	1f 93       	push	r17
+ 320:	18 2f       	mov	r17, r24
+    bisc_buffer_send(BISC_CMD_SEND_IR);
+ 322:	87 e9       	ldi	r24, 0x97	; 151
+ 324:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+    bisc_buffer_send(value);
+ 328:	81 2f       	mov	r24, r17
+ 32a:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+}
+ 32e:	1f 91       	pop	r17
+ 330:	08 95       	ret
+
+00000332 <bisc_sensors>:
+
+
+int8_t bisc_sensors(uint8_t sensor, uint8_t* values, uint8_t size) {
+ 332:	ef 92       	push	r14
+ 334:	ff 92       	push	r15
+ 336:	0f 93       	push	r16
+ 338:	1f 93       	push	r17
+ 33a:	cf 93       	push	r28
+ 33c:	df 93       	push	r29
+ 33e:	08 2f       	mov	r16, r24
+ 340:	eb 01       	movw	r28, r22
+ 342:	e4 2e       	mov	r14, r20
+	//exit on invalid sensor data or null values
+	//warning: comparison is always false due to limited range of data type
+	if(sensor < BISC_SENS_MIN || sensor > BISC_SENS_MAX 
+ 344:	8b 32       	cpi	r24, 0x2B	; 43
+ 346:	c8 f4       	brcc	.+50     	; 0x37a <bisc_sensors+0x48>
+		|| values == NULL) {
+ 348:	20 97       	sbiw	r28, 0x00	; 0
+ 34a:	b9 f0       	breq	.+46     	; 0x37a <bisc_sensors+0x48>
+		return BISC_ERR_INVALID;
+	}
+
+	//send the command to query for sensor data
+	bisc_buffer_send(BISC_CMD_SENSORS);
+ 34c:	8e e8       	ldi	r24, 0x8E	; 142
+ 34e:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+	bisc_buffer_send(sensor);
+ 352:	80 2f       	mov	r24, r16
+ 354:	0e 94 3e 01 	call	0x27c	; 0x27c <bisc_buffer_send>
+
+	//place the returned sensor data in values
+	for(int i = 0; i < size; i++) {
+ 358:	00 e0       	ldi	r16, 0x00	; 0
+ 35a:	10 e0       	ldi	r17, 0x00	; 0
+ 35c:	ff 24       	eor	r15, r15
+ 35e:	09 c0       	rjmp	.+18     	; 0x372 <bisc_sensors+0x40>
+		if(bisc_buffer_isReady()) {
+ 360:	0e 94 4c 01 	call	0x298	; 0x298 <bisc_buffer_isReady>
+ 364:	88 23       	and	r24, r24
+ 366:	59 f0       	breq	.+22     	; 0x37e <bisc_sensors+0x4c>
+			values[i] = bisc_buffer_read();
+ 368:	0e 94 45 01 	call	0x28a	; 0x28a <bisc_buffer_read>
+ 36c:	89 93       	st	Y+, r24
+	//send the command to query for sensor data
+	bisc_buffer_send(BISC_CMD_SENSORS);
+	bisc_buffer_send(sensor);
+
+	//place the returned sensor data in values
+	for(int i = 0; i < size; i++) {
+ 36e:	0f 5f       	subi	r16, 0xFF	; 255
+ 370:	1f 4f       	sbci	r17, 0xFF	; 255
+ 372:	0e 15       	cp	r16, r14
+ 374:	1f 05       	cpc	r17, r15
+ 376:	a4 f3       	brlt	.-24     	; 0x360 <bisc_sensors+0x2e>
+ 378:	02 c0       	rjmp	.+4      	; 0x37e <bisc_sensors+0x4c>
+int8_t bisc_sensors(uint8_t sensor, uint8_t* values, uint8_t size) {
+	//exit on invalid sensor data or null values
+	//warning: comparison is always false due to limited range of data type
+	if(sensor < BISC_SENS_MIN || sensor > BISC_SENS_MAX 
+		|| values == NULL) {
+		return BISC_ERR_INVALID;
+ 37a:	8f ef       	ldi	r24, 0xFF	; 255
+ 37c:	01 c0       	rjmp	.+2      	; 0x380 <bisc_sensors+0x4e>
+			break;
+		}
+	}
+
+	//everything went smoothly
+	return BISC_ERR_NONE;
+ 37e:	80 e0       	ldi	r24, 0x00	; 0
+ 380:	df 91       	pop	r29
+ 382:	cf 91       	pop	r28
+ 384:	1f 91       	pop	r17
+ 386:	0f 91       	pop	r16
+ 388:	ff 90       	pop	r15
+ 38a:	ef 90       	pop	r14
+ 38c:	08 95       	ret
+
+0000038e <main>:
+#include "main.h"
+
+int main(void) {
+ 38e:	df 93       	push	r29
+ 390:	cf 93       	push	r28
+ 392:	cd b7       	in	r28, 0x3d	; 61
+ 394:	de b7       	in	r29, 0x3e	; 62
+ 396:	64 97       	sbiw	r28, 0x14	; 20
+ 398:	0f b6       	in	r0, 0x3f	; 63
+ 39a:	f8 94       	cli
+ 39c:	de bf       	out	0x3e, r29	; 62
+ 39e:	0f be       	out	0x3f, r0	; 63
+ 3a0:	cd bf       	out	0x3d, r28	; 61
+    bisc_power_on();
+ 3a2:	0e 94 d8 00 	call	0x1b0	; 0x1b0 <bisc_power_on>
+    bisc_prepare();
+ 3a6:	0e 94 ed 00 	call	0x1da	; 0x1da <bisc_prepare>
+
+    //bisc_led_on(BISC_LED_POWER, 255, 255);
+
+    uint8_t *song[10];
+
+    song[0] = 35;
+ 3aa:	83 e2       	ldi	r24, 0x23	; 35
+ 3ac:	90 e0       	ldi	r25, 0x00	; 0
+ 3ae:	9a 83       	std	Y+2, r25	; 0x02
+ 3b0:	89 83       	std	Y+1, r24	; 0x01
+    song[1] = 64;
+ 3b2:	80 e4       	ldi	r24, 0x40	; 64
+ 3b4:	90 e0       	ldi	r25, 0x00	; 0
+ 3b6:	9c 83       	std	Y+4, r25	; 0x04
+ 3b8:	8b 83       	std	Y+3, r24	; 0x03
+    song[2] = 50;
+ 3ba:	82 e3       	ldi	r24, 0x32	; 50
+ 3bc:	90 e0       	ldi	r25, 0x00	; 0
+ 3be:	9e 83       	std	Y+6, r25	; 0x06
+ 3c0:	8d 83       	std	Y+5, r24	; 0x05
+    song[3] = 32;
+ 3c2:	80 e2       	ldi	r24, 0x20	; 32
+ 3c4:	90 e0       	ldi	r25, 0x00	; 0
+ 3c6:	98 87       	std	Y+8, r25	; 0x08
+ 3c8:	8f 83       	std	Y+7, r24	; 0x07
+
+    bisc_define_song(0, 2, song);
+ 3ca:	80 e0       	ldi	r24, 0x00	; 0
+ 3cc:	62 e0       	ldi	r22, 0x02	; 2
+ 3ce:	ae 01       	movw	r20, r28
+ 3d0:	4f 5f       	subi	r20, 0xFF	; 255
+ 3d2:	5f 4f       	sbci	r21, 0xFF	; 255
+ 3d4:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <bisc_define_song>
+    bisc_play_song(0);
+ 3d8:	80 e0       	ldi	r24, 0x00	; 0
+ 3da:	90 e0       	ldi	r25, 0x00	; 0
+ 3dc:	0e 94 34 01 	call	0x268	; 0x268 <bisc_play_song>
+
+    return 0;
+}
+ 3e0:	80 e0       	ldi	r24, 0x00	; 0
+ 3e2:	90 e0       	ldi	r25, 0x00	; 0
+ 3e4:	64 96       	adiw	r28, 0x14	; 20
+ 3e6:	0f b6       	in	r0, 0x3f	; 63
+ 3e8:	f8 94       	cli
+ 3ea:	de bf       	out	0x3e, r29	; 62
+ 3ec:	0f be       	out	0x3f, r0	; 63
+ 3ee:	cd bf       	out	0x3d, r28	; 61
+ 3f0:	cf 91       	pop	r28
+ 3f2:	df 91       	pop	r29
+ 3f4:	08 95       	ret
+
+000003f6 <__cmpsf2>:
+ 3f6:	6c d0       	rcall	.+216    	; 0x4d0 <__fp_cmp>
+ 3f8:	08 f4       	brcc	.+2      	; 0x3fc <__cmpsf2+0x6>
+ 3fa:	81 e0       	ldi	r24, 0x01	; 1
+ 3fc:	08 95       	ret
+
+000003fe <__fixunssfsi>:
+ 3fe:	94 d0       	rcall	.+296    	; 0x528 <__fp_splitA>
+ 400:	88 f0       	brcs	.+34     	; 0x424 <__fixunssfsi+0x26>
+ 402:	9f 57       	subi	r25, 0x7F	; 127
+ 404:	90 f0       	brcs	.+36     	; 0x42a <__fixunssfsi+0x2c>
+ 406:	b9 2f       	mov	r27, r25
+ 408:	99 27       	eor	r25, r25
+ 40a:	b7 51       	subi	r27, 0x17	; 23
+ 40c:	a0 f0       	brcs	.+40     	; 0x436 <__fixunssfsi+0x38>
+ 40e:	d1 f0       	breq	.+52     	; 0x444 <__fixunssfsi+0x46>
+ 410:	66 0f       	add	r22, r22
+ 412:	77 1f       	adc	r23, r23
+ 414:	88 1f       	adc	r24, r24
+ 416:	99 1f       	adc	r25, r25
+ 418:	1a f0       	brmi	.+6      	; 0x420 <__fixunssfsi+0x22>
+ 41a:	ba 95       	dec	r27
+ 41c:	c9 f7       	brne	.-14     	; 0x410 <__fixunssfsi+0x12>
+ 41e:	12 c0       	rjmp	.+36     	; 0x444 <__fixunssfsi+0x46>
+ 420:	b1 30       	cpi	r27, 0x01	; 1
+ 422:	81 f0       	breq	.+32     	; 0x444 <__fixunssfsi+0x46>
+ 424:	9b d0       	rcall	.+310    	; 0x55c <__fp_zero>
+ 426:	b1 e0       	ldi	r27, 0x01	; 1
+ 428:	08 95       	ret
+ 42a:	98 c0       	rjmp	.+304    	; 0x55c <__fp_zero>
+ 42c:	67 2f       	mov	r22, r23
+ 42e:	78 2f       	mov	r23, r24
+ 430:	88 27       	eor	r24, r24
+ 432:	b8 5f       	subi	r27, 0xF8	; 248
+ 434:	39 f0       	breq	.+14     	; 0x444 <__fixunssfsi+0x46>
+ 436:	b9 3f       	cpi	r27, 0xF9	; 249
+ 438:	cc f3       	brlt	.-14     	; 0x42c <__fixunssfsi+0x2e>
+ 43a:	86 95       	lsr	r24
+ 43c:	77 95       	ror	r23
+ 43e:	67 95       	ror	r22
+ 440:	b3 95       	inc	r27
+ 442:	d9 f7       	brne	.-10     	; 0x43a <__fixunssfsi+0x3c>
+ 444:	3e f4       	brtc	.+14     	; 0x454 <__fixunssfsi+0x56>
+ 446:	90 95       	com	r25
+ 448:	80 95       	com	r24
+ 44a:	70 95       	com	r23
+ 44c:	61 95       	neg	r22
+ 44e:	7f 4f       	sbci	r23, 0xFF	; 255
+ 450:	8f 4f       	sbci	r24, 0xFF	; 255
+ 452:	9f 4f       	sbci	r25, 0xFF	; 255
+ 454:	08 95       	ret
+
+00000456 <__floatunsisf>:
+ 456:	e8 94       	clt
+ 458:	09 c0       	rjmp	.+18     	; 0x46c <__floatsisf+0x12>
+
+0000045a <__floatsisf>:
+ 45a:	97 fb       	bst	r25, 7
+ 45c:	3e f4       	brtc	.+14     	; 0x46c <__floatsisf+0x12>
+ 45e:	90 95       	com	r25
+ 460:	80 95       	com	r24
+ 462:	70 95       	com	r23
+ 464:	61 95       	neg	r22
+ 466:	7f 4f       	sbci	r23, 0xFF	; 255
+ 468:	8f 4f       	sbci	r24, 0xFF	; 255
+ 46a:	9f 4f       	sbci	r25, 0xFF	; 255
+ 46c:	99 23       	and	r25, r25
+ 46e:	a9 f0       	breq	.+42     	; 0x49a <__floatsisf+0x40>
+ 470:	f9 2f       	mov	r31, r25
+ 472:	96 e9       	ldi	r25, 0x96	; 150
+ 474:	bb 27       	eor	r27, r27
+ 476:	93 95       	inc	r25
+ 478:	f6 95       	lsr	r31
+ 47a:	87 95       	ror	r24
+ 47c:	77 95       	ror	r23
+ 47e:	67 95       	ror	r22
+ 480:	b7 95       	ror	r27
+ 482:	f1 11       	cpse	r31, r1
+ 484:	f8 cf       	rjmp	.-16     	; 0x476 <__floatsisf+0x1c>
+ 486:	fa f4       	brpl	.+62     	; 0x4c6 <__floatsisf+0x6c>
+ 488:	bb 0f       	add	r27, r27
+ 48a:	11 f4       	brne	.+4      	; 0x490 <__floatsisf+0x36>
+ 48c:	60 ff       	sbrs	r22, 0
+ 48e:	1b c0       	rjmp	.+54     	; 0x4c6 <__floatsisf+0x6c>
+ 490:	6f 5f       	subi	r22, 0xFF	; 255
+ 492:	7f 4f       	sbci	r23, 0xFF	; 255
+ 494:	8f 4f       	sbci	r24, 0xFF	; 255
+ 496:	9f 4f       	sbci	r25, 0xFF	; 255
+ 498:	16 c0       	rjmp	.+44     	; 0x4c6 <__floatsisf+0x6c>
+ 49a:	88 23       	and	r24, r24
+ 49c:	11 f0       	breq	.+4      	; 0x4a2 <__floatsisf+0x48>
+ 49e:	96 e9       	ldi	r25, 0x96	; 150
+ 4a0:	11 c0       	rjmp	.+34     	; 0x4c4 <__floatsisf+0x6a>
+ 4a2:	77 23       	and	r23, r23
+ 4a4:	21 f0       	breq	.+8      	; 0x4ae <__floatsisf+0x54>
+ 4a6:	9e e8       	ldi	r25, 0x8E	; 142
+ 4a8:	87 2f       	mov	r24, r23
+ 4aa:	76 2f       	mov	r23, r22
+ 4ac:	05 c0       	rjmp	.+10     	; 0x4b8 <__floatsisf+0x5e>
+ 4ae:	66 23       	and	r22, r22
+ 4b0:	71 f0       	breq	.+28     	; 0x4ce <__floatsisf+0x74>
+ 4b2:	96 e8       	ldi	r25, 0x86	; 134
+ 4b4:	86 2f       	mov	r24, r22
+ 4b6:	70 e0       	ldi	r23, 0x00	; 0
+ 4b8:	60 e0       	ldi	r22, 0x00	; 0
+ 4ba:	2a f0       	brmi	.+10     	; 0x4c6 <__floatsisf+0x6c>
+ 4bc:	9a 95       	dec	r25
+ 4be:	66 0f       	add	r22, r22
+ 4c0:	77 1f       	adc	r23, r23
+ 4c2:	88 1f       	adc	r24, r24
+ 4c4:	da f7       	brpl	.-10     	; 0x4bc <__floatsisf+0x62>
+ 4c6:	88 0f       	add	r24, r24
+ 4c8:	96 95       	lsr	r25
+ 4ca:	87 95       	ror	r24
+ 4cc:	97 f9       	bld	r25, 7
+ 4ce:	08 95       	ret
+
+000004d0 <__fp_cmp>:
+ 4d0:	99 0f       	add	r25, r25
+ 4d2:	00 08       	sbc	r0, r0
+ 4d4:	55 0f       	add	r21, r21
+ 4d6:	aa 0b       	sbc	r26, r26
+ 4d8:	e0 e8       	ldi	r30, 0x80	; 128
+ 4da:	fe ef       	ldi	r31, 0xFE	; 254
+ 4dc:	16 16       	cp	r1, r22
+ 4de:	17 06       	cpc	r1, r23
+ 4e0:	e8 07       	cpc	r30, r24
+ 4e2:	f9 07       	cpc	r31, r25
+ 4e4:	c0 f0       	brcs	.+48     	; 0x516 <__stack+0x17>
+ 4e6:	12 16       	cp	r1, r18
+ 4e8:	13 06       	cpc	r1, r19
+ 4ea:	e4 07       	cpc	r30, r20
+ 4ec:	f5 07       	cpc	r31, r21
+ 4ee:	98 f0       	brcs	.+38     	; 0x516 <__stack+0x17>
+ 4f0:	62 1b       	sub	r22, r18
+ 4f2:	73 0b       	sbc	r23, r19
+ 4f4:	84 0b       	sbc	r24, r20
+ 4f6:	95 0b       	sbc	r25, r21
+ 4f8:	39 f4       	brne	.+14     	; 0x508 <__stack+0x9>
+ 4fa:	0a 26       	eor	r0, r26
+ 4fc:	61 f0       	breq	.+24     	; 0x516 <__stack+0x17>
+ 4fe:	23 2b       	or	r18, r19
+ 500:	24 2b       	or	r18, r20
+ 502:	25 2b       	or	r18, r21
+ 504:	21 f4       	brne	.+8      	; 0x50e <__stack+0xf>
+ 506:	08 95       	ret
+ 508:	0a 26       	eor	r0, r26
+ 50a:	09 f4       	brne	.+2      	; 0x50e <__stack+0xf>
+ 50c:	a1 40       	sbci	r26, 0x01	; 1
+ 50e:	a6 95       	lsr	r26
+ 510:	8f ef       	ldi	r24, 0xFF	; 255
+ 512:	81 1d       	adc	r24, r1
+ 514:	81 1d       	adc	r24, r1
+ 516:	08 95       	ret
+
+00000518 <__fp_split3>:
+ 518:	57 fd       	sbrc	r21, 7
+ 51a:	90 58       	subi	r25, 0x80	; 128
+ 51c:	44 0f       	add	r20, r20
+ 51e:	55 1f       	adc	r21, r21
+ 520:	59 f0       	breq	.+22     	; 0x538 <__fp_splitA+0x10>
+ 522:	5f 3f       	cpi	r21, 0xFF	; 255
+ 524:	71 f0       	breq	.+28     	; 0x542 <__fp_splitA+0x1a>
+ 526:	47 95       	ror	r20
+
+00000528 <__fp_splitA>:
+ 528:	88 0f       	add	r24, r24
+ 52a:	97 fb       	bst	r25, 7
+ 52c:	99 1f       	adc	r25, r25
+ 52e:	61 f0       	breq	.+24     	; 0x548 <__fp_splitA+0x20>
+ 530:	9f 3f       	cpi	r25, 0xFF	; 255
+ 532:	79 f0       	breq	.+30     	; 0x552 <__fp_splitA+0x2a>
+ 534:	87 95       	ror	r24
+ 536:	08 95       	ret
+ 538:	12 16       	cp	r1, r18
+ 53a:	13 06       	cpc	r1, r19
+ 53c:	14 06       	cpc	r1, r20
+ 53e:	55 1f       	adc	r21, r21
+ 540:	f2 cf       	rjmp	.-28     	; 0x526 <__fp_split3+0xe>
+ 542:	46 95       	lsr	r20
+ 544:	f1 df       	rcall	.-30     	; 0x528 <__fp_splitA>
+ 546:	08 c0       	rjmp	.+16     	; 0x558 <__fp_splitA+0x30>
+ 548:	16 16       	cp	r1, r22
+ 54a:	17 06       	cpc	r1, r23
+ 54c:	18 06       	cpc	r1, r24
+ 54e:	99 1f       	adc	r25, r25
+ 550:	f1 cf       	rjmp	.-30     	; 0x534 <__fp_splitA+0xc>
+ 552:	86 95       	lsr	r24
+ 554:	71 05       	cpc	r23, r1
+ 556:	61 05       	cpc	r22, r1
+ 558:	08 94       	sec
+ 55a:	08 95       	ret
+
+0000055c <__fp_zero>:
+ 55c:	e8 94       	clt
+
+0000055e <__fp_szero>:
+ 55e:	bb 27       	eor	r27, r27
+ 560:	66 27       	eor	r22, r22
+ 562:	77 27       	eor	r23, r23
+ 564:	cb 01       	movw	r24, r22
+ 566:	97 f9       	bld	r25, 7
+ 568:	08 95       	ret
+
+0000056a <__gesf2>:
+ 56a:	b2 df       	rcall	.-156    	; 0x4d0 <__fp_cmp>
+ 56c:	08 f4       	brcc	.+2      	; 0x570 <__gesf2+0x6>
+ 56e:	8f ef       	ldi	r24, 0xFF	; 255
+ 570:	08 95       	ret
+
+00000572 <__mulsf3>:
+ 572:	0b d0       	rcall	.+22     	; 0x58a <__mulsf3x>
+ 574:	78 c0       	rjmp	.+240    	; 0x666 <__fp_round>
+ 576:	69 d0       	rcall	.+210    	; 0x64a <__fp_pscA>
+ 578:	28 f0       	brcs	.+10     	; 0x584 <__mulsf3+0x12>
+ 57a:	6e d0       	rcall	.+220    	; 0x658 <__fp_pscB>
+ 57c:	18 f0       	brcs	.+6      	; 0x584 <__mulsf3+0x12>
+ 57e:	95 23       	and	r25, r21
+ 580:	09 f0       	breq	.+2      	; 0x584 <__mulsf3+0x12>
+ 582:	5a c0       	rjmp	.+180    	; 0x638 <__fp_inf>
+ 584:	5f c0       	rjmp	.+190    	; 0x644 <__fp_nan>
+ 586:	11 24       	eor	r1, r1
+ 588:	ea cf       	rjmp	.-44     	; 0x55e <__fp_szero>
+
+0000058a <__mulsf3x>:
+ 58a:	c6 df       	rcall	.-116    	; 0x518 <__fp_split3>
+ 58c:	a0 f3       	brcs	.-24     	; 0x576 <__mulsf3+0x4>
+
+0000058e <__mulsf3_pse>:
+ 58e:	95 9f       	mul	r25, r21
+ 590:	d1 f3       	breq	.-12     	; 0x586 <__mulsf3+0x14>
+ 592:	95 0f       	add	r25, r21
+ 594:	50 e0       	ldi	r21, 0x00	; 0
+ 596:	55 1f       	adc	r21, r21
+ 598:	62 9f       	mul	r22, r18
+ 59a:	f0 01       	movw	r30, r0
+ 59c:	72 9f       	mul	r23, r18
+ 59e:	bb 27       	eor	r27, r27
+ 5a0:	f0 0d       	add	r31, r0
+ 5a2:	b1 1d       	adc	r27, r1
+ 5a4:	63 9f       	mul	r22, r19
+ 5a6:	aa 27       	eor	r26, r26
+ 5a8:	f0 0d       	add	r31, r0
+ 5aa:	b1 1d       	adc	r27, r1
+ 5ac:	aa 1f       	adc	r26, r26
+ 5ae:	64 9f       	mul	r22, r20
+ 5b0:	66 27       	eor	r22, r22
+ 5b2:	b0 0d       	add	r27, r0
+ 5b4:	a1 1d       	adc	r26, r1
+ 5b6:	66 1f       	adc	r22, r22
+ 5b8:	82 9f       	mul	r24, r18
+ 5ba:	22 27       	eor	r18, r18
+ 5bc:	b0 0d       	add	r27, r0
+ 5be:	a1 1d       	adc	r26, r1
+ 5c0:	62 1f       	adc	r22, r18
+ 5c2:	73 9f       	mul	r23, r19
+ 5c4:	b0 0d       	add	r27, r0
+ 5c6:	a1 1d       	adc	r26, r1
+ 5c8:	62 1f       	adc	r22, r18
+ 5ca:	83 9f       	mul	r24, r19
+ 5cc:	a0 0d       	add	r26, r0
+ 5ce:	61 1d       	adc	r22, r1
+ 5d0:	22 1f       	adc	r18, r18
+ 5d2:	74 9f       	mul	r23, r20
+ 5d4:	33 27       	eor	r19, r19
+ 5d6:	a0 0d       	add	r26, r0
+ 5d8:	61 1d       	adc	r22, r1
+ 5da:	23 1f       	adc	r18, r19
+ 5dc:	84 9f       	mul	r24, r20
+ 5de:	60 0d       	add	r22, r0
+ 5e0:	21 1d       	adc	r18, r1
+ 5e2:	82 2f       	mov	r24, r18
+ 5e4:	76 2f       	mov	r23, r22
+ 5e6:	6a 2f       	mov	r22, r26
+ 5e8:	11 24       	eor	r1, r1
+ 5ea:	9f 57       	subi	r25, 0x7F	; 127
+ 5ec:	50 40       	sbci	r21, 0x00	; 0
+ 5ee:	8a f0       	brmi	.+34     	; 0x612 <__mulsf3_pse+0x84>
+ 5f0:	e1 f0       	breq	.+56     	; 0x62a <__mulsf3_pse+0x9c>
+ 5f2:	88 23       	and	r24, r24
+ 5f4:	4a f0       	brmi	.+18     	; 0x608 <__mulsf3_pse+0x7a>
+ 5f6:	ee 0f       	add	r30, r30
+ 5f8:	ff 1f       	adc	r31, r31
+ 5fa:	bb 1f       	adc	r27, r27
+ 5fc:	66 1f       	adc	r22, r22
+ 5fe:	77 1f       	adc	r23, r23
+ 600:	88 1f       	adc	r24, r24
+ 602:	91 50       	subi	r25, 0x01	; 1
+ 604:	50 40       	sbci	r21, 0x00	; 0
+ 606:	a9 f7       	brne	.-22     	; 0x5f2 <__mulsf3_pse+0x64>
+ 608:	9e 3f       	cpi	r25, 0xFE	; 254
+ 60a:	51 05       	cpc	r21, r1
+ 60c:	70 f0       	brcs	.+28     	; 0x62a <__mulsf3_pse+0x9c>
+ 60e:	14 c0       	rjmp	.+40     	; 0x638 <__fp_inf>
+ 610:	a6 cf       	rjmp	.-180    	; 0x55e <__fp_szero>
+ 612:	5f 3f       	cpi	r21, 0xFF	; 255
+ 614:	ec f3       	brlt	.-6      	; 0x610 <__mulsf3_pse+0x82>
+ 616:	98 3e       	cpi	r25, 0xE8	; 232
+ 618:	dc f3       	brlt	.-10     	; 0x610 <__mulsf3_pse+0x82>
+ 61a:	86 95       	lsr	r24
+ 61c:	77 95       	ror	r23
+ 61e:	67 95       	ror	r22
+ 620:	b7 95       	ror	r27
+ 622:	f7 95       	ror	r31
+ 624:	e7 95       	ror	r30
+ 626:	9f 5f       	subi	r25, 0xFF	; 255
+ 628:	c1 f7       	brne	.-16     	; 0x61a <__mulsf3_pse+0x8c>
+ 62a:	fe 2b       	or	r31, r30
+ 62c:	88 0f       	add	r24, r24
+ 62e:	91 1d       	adc	r25, r1
+ 630:	96 95       	lsr	r25
+ 632:	87 95       	ror	r24
+ 634:	97 f9       	bld	r25, 7
+ 636:	08 95       	ret
+
+00000638 <__fp_inf>:
+ 638:	97 f9       	bld	r25, 7
+ 63a:	9f 67       	ori	r25, 0x7F	; 127
+ 63c:	80 e8       	ldi	r24, 0x80	; 128
+ 63e:	70 e0       	ldi	r23, 0x00	; 0
+ 640:	60 e0       	ldi	r22, 0x00	; 0
+ 642:	08 95       	ret
+
+00000644 <__fp_nan>:
+ 644:	9f ef       	ldi	r25, 0xFF	; 255
+ 646:	80 ec       	ldi	r24, 0xC0	; 192
+ 648:	08 95       	ret
+
+0000064a <__fp_pscA>:
+ 64a:	00 24       	eor	r0, r0
+ 64c:	0a 94       	dec	r0
+ 64e:	16 16       	cp	r1, r22
+ 650:	17 06       	cpc	r1, r23
+ 652:	18 06       	cpc	r1, r24
+ 654:	09 06       	cpc	r0, r25
+ 656:	08 95       	ret
+
+00000658 <__fp_pscB>:
+ 658:	00 24       	eor	r0, r0
+ 65a:	0a 94       	dec	r0
+ 65c:	12 16       	cp	r1, r18
+ 65e:	13 06       	cpc	r1, r19
+ 660:	14 06       	cpc	r1, r20
+ 662:	05 06       	cpc	r0, r21
+ 664:	08 95       	ret
+
+00000666 <__fp_round>:
+ 666:	09 2e       	mov	r0, r25
+ 668:	03 94       	inc	r0
+ 66a:	00 0c       	add	r0, r0
+ 66c:	11 f4       	brne	.+4      	; 0x672 <__fp_round+0xc>
+ 66e:	88 23       	and	r24, r24
+ 670:	52 f0       	brmi	.+20     	; 0x686 <__fp_round+0x20>
+ 672:	bb 0f       	add	r27, r27
+ 674:	40 f4       	brcc	.+16     	; 0x686 <__fp_round+0x20>
+ 676:	bf 2b       	or	r27, r31
+ 678:	11 f4       	brne	.+4      	; 0x67e <__fp_round+0x18>
+ 67a:	60 ff       	sbrs	r22, 0
+ 67c:	04 c0       	rjmp	.+8      	; 0x686 <__fp_round+0x20>
+ 67e:	6f 5f       	subi	r22, 0xFF	; 255
+ 680:	7f 4f       	sbci	r23, 0xFF	; 255
+ 682:	8f 4f       	sbci	r24, 0xFF	; 255
+ 684:	9f 4f       	sbci	r25, 0xFF	; 255
+ 686:	08 95       	ret
+
+00000688 <_exit>:
+ 688:	f8 94       	cli
+
+0000068a <__stop_program>:
+ 68a:	ff cf       	rjmp	.-2      	; 0x68a <__stop_program>
