@@ -20,17 +20,28 @@
 /*
  * IO registry values and bitfields
  */
-#define BISC_IO_DATA_REG        USR0A
+
+ /*
+ * Buffer settings
+ * NOTE: For all I/O buffer information,
+ *  See that Atmega168 Reference (Document 02), Section 18.9
+ *  Also see Section 29. Registry summary for registers UDR0 and UCSR0A
+ */
+#define BISC_IO_DATA_REG        UDR0
 #define BISC_IO_STATUS_REG      UCSR0A
-#define BISC_IO_STATUS_EMPTY    0x20
-//Transfer interrupt enable
-#define BISC_IO_STATUS_TXIE     0x40
-#define BISC_IO_STATUS_FULL     0x80
+
+//UCSR0A bit 5
+#define BISC_IO_STATUS_EMPTY    _BV(UDRE0)
+//USCR0A bit 7
+#define BISC_IO_STATUS_FULL     _BV(RXCO)
+
+//UCSR0A bit 6
+#define BISC_IO_SEND_COMPLETE	_BV(TXC0)
 
 /*
  * Baud registry and codes
  */
-#define BISC_BAUD_REG           BISC_ATM_BAUD_0
+#define BISC_BAUD_REG           UBRR0
 
 //Create baud codes
 #define BISC_BAUD_300           0
@@ -63,11 +74,9 @@
 #define BISC_ATM_BAUD_57600     19
 #define BISC_ATM_BAUD_115200    9
 
-/*
- * Buffer settings
- * NOTE: For all I/O buffer information,
- *  See that Atmega168 Reference (Document 02), Section 18.9
- */
+#define BISC_ATM_BAUD_REC		BISC_ATM_BAUD_28800
+#define BISC_ATM_BAUD_MAX		BISC_ATM_BAUD_115200
+
 
 
 
@@ -206,16 +215,6 @@
 #define BISC_PIN_SL(pin)        ((pin) |= BISC_PIN_L)
 #define BISC_PIN_UH(pin)        ((pin) &= ~BISC_PIN_H)
 #define BISC_PIN_UL(pin)        ((pin) &= ~BISC_PIN_L)
-
-
-
-/*
- * Global Variables
- */
-uint8_t BISC_IO_DATA_REG;
-//uint16_t BISC_BAUD_REG;
-
-
 
 
 /*

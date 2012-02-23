@@ -1,11 +1,20 @@
 #include "main.h"
 
 int main(void) {
-    bisc_prepare();
+    bisc_init();
 
-    bisc_led_on(BISC_LED_POWER, 255, 255);
+    uint8_t value = 0;
+    while(1) {
+        if(value % 2 == 0) {
+            bisc_led_on(BISC_LED_BOTH, 255, 255);
+        }
+        else {
+            bisc_led_off(BISC_LED_BOTH);
+        }
+    }
 
-    // Testing the song functions
+
+/*    // Testing the song functions
     uint8_t song[4];
 
     song[0] = 35;
@@ -14,7 +23,7 @@ int main(void) {
     song[3] = 32;
 
     bisc_define_song(0, 2, song);
-    bisc_play_song(0);
+    bisc_play_song(0);*/
 
     return 0;
 }

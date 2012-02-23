@@ -29,8 +29,10 @@ uint8_t bisc_buffer_isReady(void) {
 
 
 void bisc_buffer_clear(void) {
-	BISC_IO_DATA_REG = 0;
-	BISC_IO_STATUS_REG = BISC_IO_STATUS_EMPTY;
+	uint8_t temp;
+	while(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL) {
+		temp = BISC_IO_DATA_REG;
+	}
 }
 
 
@@ -42,14 +44,11 @@ void bisc_start(void) {
 void bisc_baud(uint8_t value) {
 	bisc_buffer_send(BISC_CMD_BAUD);
 	
-	//enable the transfer interrupt
-	BISC_IO_STATUS_REG |= BISC_IO_STATUS_TXIE;
-	
 	//send the code
 	bisc_buffer_send(value);
 	
-	//stall until the interrupt occurs
-	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_TXIE));
+	//stall until the baud is set
+	while(!(BISC_IO_STATUS_REG & BISC_IO_SEND_COMPLETE));
 }
 
 

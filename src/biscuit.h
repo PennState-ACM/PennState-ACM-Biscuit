@@ -22,7 +22,7 @@
 /*
  * Prepares the Create to execute programs
  */
-void bisc_prepare(void);
+void bisc_init(void);
 
 /*
  * Powers on the Create

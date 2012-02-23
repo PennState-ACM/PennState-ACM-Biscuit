@@ -1,11 +1,20 @@
 #include "biscuit.h"
 
 
-void bisc_prepare(void) {
+void bisc_init(void) {
     //TODO: when we handle interrupt stuff, it will go here
     cli();
 
-    sei();
+    // Configure the I/O pins
+    //TODO: Find out what these pin values mean
+    DDRB = 0x10;
+    PORTB = 0xCF;
+    DDRC = 0x02;
+    PORTC = 0xFF;
+    DDRD = 0xE6;
+    PORTD = 0x7D;
+
+    bisc_baud_atm(BISC_ATM_BAUD_57600);
 
     bisc_led_off(BISC_LED_BOTH);
     bisc_power_on();
@@ -40,14 +49,15 @@ void bisc_baud_all(uint8_t code) {
     // warning: comparison is always true due to limited range of data type
     if(code >= 0 && code <= BISC_BAUD_MAX) {
         bisc_baud(code);
-
-        //with the Create's baud set, set the command baud to match it
-        cli();
-        //if we value interrupts more than space preserved, move this call outside
-        //uint16_t BISC_BAUD_REG = bisc_baud_atm_from_create(code);
-        sei();
+        BISC_BAUD_REG = bisc_baud_atm_from_create(code);
         bisc_delay(100);
     } 
+}
+
+void bisc_baud_atm(uint8_t code) {
+    BISC_BAUD_REG = code;
+    UCSR0B = (_BV(TXEN0) | _BV(RXEN0));
+    UCSR0C = (_BV(UCSZ00) | _BV(UCSZ01));
 }
 
 
