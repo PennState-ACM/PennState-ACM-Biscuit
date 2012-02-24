@@ -14,7 +14,7 @@ void bisc_init(void) {
     DDRD = 0xE6;
     PORTD = 0x7D;
 
-    bisc_baud_atm(BISC_ATM_BAUD_57600);
+    bisc_atm_baud(BISC_ATM_BAUD_57600);
 
     bisc_led_off(BISC_LED_BOTH);
     bisc_power_on();
@@ -49,19 +49,19 @@ void bisc_baud_all(uint8_t code) {
     // warning: comparison is always true due to limited range of data type
     if(code >= 0 && code <= BISC_BAUD_MAX) {
         bisc_baud(code);
-        BISC_BAUD_REG = bisc_baud_atm_from_create(code);
+        bisc_atm_baud(bisc_atm_baud_from_create(code));
         bisc_delay(100);
     } 
 }
 
-void bisc_baud_atm(uint8_t code) {
+void bisc_atm_baud(uint8_t code) {
     BISC_BAUD_REG = code;
     UCSR0B = (_BV(TXEN0) | _BV(RXEN0));
     UCSR0C = (_BV(UCSZ00) | _BV(UCSZ01));
 }
 
 
-uint16_t bisc_baud_atm_from_create(uint8_t code) {
+uint16_t bisc_atm_baud_from_create(uint8_t code) {
     uint16_t atm_code = 0;
     
     //not sure if switch statements supported -- using if/else

@@ -11,6 +11,8 @@ int main(void) {
         else {
             bisc_led_off(BISC_LED_BOTH);
         }
+
+        value++;
     }
 
 

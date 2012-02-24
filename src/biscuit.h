@@ -37,6 +37,16 @@ void bisc_power_on(void);
 void bisc_baud_all(uint8_t code);
 
 /*
+ * Sets the baud of the Command Module given the Create baud code
+ */
+uint16_t bisc_atm_baud_from_create(uint8_t code);
+
+/*
+ * Set the baud of the command module
+ */
+void bisc_atm_baud(uint8_t code);
+
+/*
  * Sets the operating mode of Create to passive
  */
 void bisc_mode_passive(void);

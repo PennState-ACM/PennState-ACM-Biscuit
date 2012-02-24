@@ -33,7 +33,7 @@
 //UCSR0A bit 5
 #define BISC_IO_STATUS_EMPTY    _BV(UDRE0)
 //USCR0A bit 7
-#define BISC_IO_STATUS_FULL     _BV(RXCO)
+#define BISC_IO_STATUS_FULL     (1 << 7)
 
 //UCSR0A bit 6
 #define BISC_IO_SEND_COMPLETE	_BV(TXC0)
