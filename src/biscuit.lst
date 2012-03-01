@@ -1,0 +1,680 @@
+   1               		.file	"biscuit.c"
+   2               		.arch atmega168
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  90               	.global	bisc_atm_baud
+  92               	bisc_atm_baud:
+   1:src/biscuit.c **** #include "biscuit.h"
+   2:src/biscuit.c **** 
+   3:src/biscuit.c **** 
+   4:src/biscuit.c **** void bisc_init(void) {
+   5:src/biscuit.c ****     //TODO: when we handle interrupt stuff, it will go here
+   6:src/biscuit.c ****     bisc_prepare();
+   7:src/biscuit.c ****     
+   8:src/biscuit.c ****     bisc_led_off(BISC_LED_BOTH);
+   9:src/biscuit.c ****     bisc_power_on();
+  10:src/biscuit.c ****     bisc_start();
+  11:src/biscuit.c ****     bisc_baud_all(BISC_BAUD_REC);
+  12:src/biscuit.c ****     bisc_mode_safe();
+  13:src/biscuit.c **** }
+  14:src/biscuit.c **** 
+  15:src/biscuit.c **** void bisc_prepare() {
+  16:src/biscuit.c ****     cli();
+  17:src/biscuit.c **** 
+  18:src/biscuit.c ****     // Configure the I/O pins
+  19:src/biscuit.c ****     //TODO: Find out what these pin values mean
+  20:src/biscuit.c ****     DDRB = 0x10;
+  21:src/biscuit.c ****     PORTB = 0xCF;
+  22:src/biscuit.c ****     DDRC = 0x02;
+  23:src/biscuit.c ****     PORTC = 0xFF;
+  24:src/biscuit.c ****     DDRD = 0xE6;
+  25:src/biscuit.c ****     PORTD = 0x7D;
+  26:src/biscuit.c ****     
+  27:src/biscuit.c ****     bisc_atm_baud(BISC_ATM_BAUD_57600);
+  28:src/biscuit.c **** }
+  29:src/biscuit.c **** 
+  30:src/biscuit.c **** 
+  31:src/biscuit.c **** void bisc_power_on(void) {
+  32:src/biscuit.c ****     //check if the power is already on
+  33:src/biscuit.c ****     if(!BISC_PWR_IS_ON) {
+  34:src/biscuit.c ****         //loop until the power is on
+  35:src/biscuit.c ****         while(!BISC_PWR_IS_ON) {
+  36:src/biscuit.c ****             //a power tranisition happens when the powr toggles low to high
+  37:src/biscuit.c ****             //delays are included to let the create notice the change
+  38:src/biscuit.c ****             BISC_PWR_TOGGLE_LOW();
+  39:src/biscuit.c ****             bisc_delay(100);
+  40:src/biscuit.c ****             BISC_PWR_TOGGLE_HIGH();
+  41:src/biscuit.c ****             bisc_delay(100);
+  42:src/biscuit.c ****         }
+  43:src/biscuit.c ****         //toggle power back to low
+  44:src/biscuit.c ****         BISC_PWR_TOGGLE_LOW();
+  45:src/biscuit.c **** 
+  46:src/biscuit.c ****         //delay for create bootloader
+  47:src/biscuit.c ****         bisc_delay(2000);
+  48:src/biscuit.c ****     }
+  49:src/biscuit.c **** }
+  50:src/biscuit.c **** 
+  51:src/biscuit.c **** 
+  52:src/biscuit.c **** void bisc_baud_all(uint8_t code) {
+  53:src/biscuit.c **** 	if(code <= BISC_BAUD_MAX) {		
+  54:src/biscuit.c **** 		bisc_baud(code);
+  55:src/biscuit.c **** 		bisc_atm_baud(bisc_atm_baud_from_create(code));
+  56:src/biscuit.c **** 		bisc_delay(100);
+  57:src/biscuit.c **** 	}
+  58:src/biscuit.c **** }
+  59:src/biscuit.c **** 
+  60:src/biscuit.c **** void bisc_atm_baud(uint8_t code) {
+  94               	.LM1:
+  95               	/* prologue: frame size=0 */
+  96               	/* prologue end (size=0) */
+  61:src/biscuit.c ****     BISC_BAUD_REG = code;
+  98               	.LM2:
+  99 0000 9927      		clr r25
+ 100 0002 9093 C500 		sts (196)+1,r25
+ 101 0006 8093 C400 		sts 196,r24
+  62:src/biscuit.c ****     UCSR0B = (_BV(TXEN0) | _BV(RXEN0));
+ 103               	.LM3:
+ 104 000a 88E1      		ldi r24,lo8(24)
+ 105 000c 8093 C100 		sts 193,r24
+  63:src/biscuit.c ****     UCSR0C = (_BV(UCSZ00) | _BV(UCSZ01));
+ 107               	.LM4:
+ 108 0010 86E0      		ldi r24,lo8(6)
+ 109 0012 8093 C200 		sts 194,r24
+ 110               	/* epilogue: frame size=0 */
+ 111 0016 0895      		ret
+ 112               	/* epilogue end (size=1) */
+ 113               	/* function bisc_atm_baud size 12 (11) */
+ 115               	.Lscope0:
+ 117               	.global	bisc_prepare
+ 119               	bisc_prepare:
+ 121               	.LM5:
+ 122               	/* prologue: frame size=0 */
+ 123               	/* prologue end (size=0) */
+ 125               	.LM6:
+ 126               	/* #APP */
+ 127 0018 F894      		cli
+ 129               	.LM7:
+ 130               	/* #NOAPP */
+ 131 001a 80E1      		ldi r24,lo8(16)
+ 132 001c 84B9      		out 36-0x20,r24
+ 134               	.LM8:
+ 135 001e 8FEC      		ldi r24,lo8(-49)
+ 136 0020 85B9      		out 37-0x20,r24
+ 138               	.LM9:
+ 139 0022 82E0      		ldi r24,lo8(2)
+ 140 0024 87B9      		out 39-0x20,r24
+ 142               	.LM10:
+ 143 0026 8FEF      		ldi r24,lo8(-1)
+ 144 0028 88B9      		out 40-0x20,r24
+ 146               	.LM11:
+ 147 002a 86EE      		ldi r24,lo8(-26)
+ 148 002c 8AB9      		out 42-0x20,r24
+ 150               	.LM12:
+ 151 002e 8DE7      		ldi r24,lo8(125)
+ 152 0030 8BB9      		out 43-0x20,r24
+ 154               	.LM13:
+ 155 0032 83E1      		ldi r24,lo8(19)
+ 156 0034 0E94 0000 		call bisc_atm_baud
+ 157               	/* epilogue: frame size=0 */
+ 158 0038 0895      		ret
+ 159               	/* epilogue end (size=1) */
+ 160               	/* function bisc_prepare size 18 (17) */
+ 162               	.Lscope1:
+ 165               	.global	bisc_delay
+ 167               	bisc_delay:
+  64:src/biscuit.c **** }
+  65:src/biscuit.c **** 
+  66:src/biscuit.c **** 
+  67:src/biscuit.c **** uint16_t bisc_atm_baud_from_create(uint8_t code) {
+  68:src/biscuit.c ****     uint16_t atm_code = 0;
+  69:src/biscuit.c ****     
+  70:src/biscuit.c ****     //not sure if switch statements supported -- using if/else
+  71:src/biscuit.c ****     if(code == BISC_BAUD_300) {
+  72:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_300;
+  73:src/biscuit.c ****     } else if(code == BISC_BAUD_600) {
+  74:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_600;
+  75:src/biscuit.c ****     } else if(code == BISC_BAUD_1200) {
+  76:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_1200;
+  77:src/biscuit.c ****     } else if(code == BISC_BAUD_2400) {
+  78:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_2400;
+  79:src/biscuit.c ****     } else if(code == BISC_BAUD_4800) {
+  80:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_4800;
+  81:src/biscuit.c ****     } else if(code == BISC_BAUD_9600) {
+  82:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_9600;
+  83:src/biscuit.c ****     } else if(code == BISC_BAUD_14400) {
+  84:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_14400;
+  85:src/biscuit.c ****     } else if(code == BISC_BAUD_28800) {
+  86:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_28800;
+  87:src/biscuit.c ****     } else if(code == BISC_BAUD_57600) {
+  88:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_57600;
+  89:src/biscuit.c ****     } else if(code == BISC_BAUD_115200) {
+  90:src/biscuit.c ****         atm_code = BISC_ATM_BAUD_115200;
+  91:src/biscuit.c ****     }
+  92:src/biscuit.c **** 
+  93:src/biscuit.c ****     return atm_code;
+  94:src/biscuit.c **** }
+  95:src/biscuit.c **** 
+  96:src/biscuit.c **** void bisc_led_on(uint8_t led, uint8_t color, uint8_t intensity) {
+  97:src/biscuit.c ****     bisc_led(led, color, intensity);
+  98:src/biscuit.c **** }
+  99:src/biscuit.c **** 
+ 100:src/biscuit.c **** 
+ 101:src/biscuit.c **** void bisc_led_off(uint8_t led) {
+ 102:src/biscuit.c ****     bisc_led(led, 0, 0);
+ 103:src/biscuit.c **** }
+ 104:src/biscuit.c **** 
+ 105:src/biscuit.c **** 
+ 106:src/biscuit.c **** //delay in centiseconds
+ 107:src/biscuit.c **** void bisc_delay(uint16_t ms) {
+ 169               	.LM14:
+ 170               	/* prologue: frame size=0 */
+ 171               	/* prologue end (size=0) */
+ 173               	.Ltext1:
+   1:include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:include/util/delay.h ****    Copyright (c) 2004,2005 Joerg Wunsch
+   3:include/util/delay.h ****    All rights reserved.
+   4:include/util/delay.h **** 
+   5:include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   6:include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   7:include/util/delay.h **** 
+   8:include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+   9:include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  10:include/util/delay.h **** 
+  11:include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  12:include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  13:include/util/delay.h ****      the documentation and/or other materials provided with the
+  14:include/util/delay.h ****      distribution.
+  15:include/util/delay.h **** 
+  16:include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  17:include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  18:include/util/delay.h ****      from this software without specific prior written permission.
+  19:include/util/delay.h **** 
+  20:include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  21:include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  22:include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  23:include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  24:include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  25:include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  26:include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  27:include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  28:include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  29:include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  30:include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  31:include/util/delay.h **** 
+  32:include/util/delay.h **** /* $Id: delay.h,v 1.1.2.1 2005/12/12 23:19:49 joerg_wunsch Exp $ */
+  33:include/util/delay.h **** 
+  34:include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  35:include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  36:include/util/delay.h **** 
+  37:include/util/delay.h **** #include <inttypes.h>
+  38:include/util/delay.h **** 
+  39:include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Busy-wait delay loops
+  40:include/util/delay.h ****     \code
+  41:include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  42:include/util/delay.h ****     //#define F_CPU 14.7456E6
+  43:include/util/delay.h ****     #include <util/delay.h>
+  44:include/util/delay.h ****     \endcode
+  45:include/util/delay.h **** 
+  46:include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  47:include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  48:include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  49:include/util/delay.h ****     used.
+  50:include/util/delay.h **** 
+  51:include/util/delay.h ****     The functions in this header file implement simple delay loops
+  52:include/util/delay.h ****     that perform a busy-waiting.  They are typically used to
+  53:include/util/delay.h ****     facilitate short delays in the program execution.  They are
+  54:include/util/delay.h ****     implemented as count-down loops with a well-known CPU cycle
+  55:include/util/delay.h ****     count per loop iteration.  As such, no other processing can
+  56:include/util/delay.h ****     occur simultaneously.  It should be kept in mind that the
+  57:include/util/delay.h ****     functions described here do not disable interrupts.
+  58:include/util/delay.h **** 
+  59:include/util/delay.h ****     In general, for long delays, the use of hardware timers is
+  60:include/util/delay.h ****     much preferrable, as they free the CPU, and allow for
+  61:include/util/delay.h ****     concurrent processing of other events while the timer is
+  62:include/util/delay.h ****     running.  However, in particular for very short delays, the
+  63:include/util/delay.h ****     overhead of setting up a hardware timer is too much compared
+  64:include/util/delay.h ****     to the overall delay time.
+  65:include/util/delay.h **** 
+  66:include/util/delay.h ****     Two inline functions are provided for the actual delay algorithms.
+  67:include/util/delay.h **** 
+  68:include/util/delay.h ****     Two wrapper functions allow the specification of microsecond, and
+  69:include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  70:include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).  These functions
+  71:include/util/delay.h ****     operate on double typed arguments, however when optimization is
+  72:include/util/delay.h ****     turned on, the entire floating-point calculation will be done at
+  73:include/util/delay.h ****     compile-time.
+  74:include/util/delay.h **** 
+  75:include/util/delay.h ****     \note When using _delay_us() and _delay_ms(), the expressions
+  76:include/util/delay.h ****     passed as arguments to these functions shall be compile-time
+  77:include/util/delay.h ****     constants, otherwise the floating-point calculations to setup the
+  78:include/util/delay.h ****     loops will be done at run-time, thereby drastically increasing
+  79:include/util/delay.h ****     both the resulting code size, as well as the time required to
+  80:include/util/delay.h ****     setup the loops.
+  81:include/util/delay.h **** */
+  82:include/util/delay.h **** 
+  83:include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:include/util/delay.h **** static inline void _delay_loop_1(uint8_t __count) __attribute__((always_inline));
+  85:include/util/delay.h **** static inline void _delay_loop_2(uint16_t __count) __attribute__((always_inline));
+  86:include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  87:include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  88:include/util/delay.h **** #endif
+  89:include/util/delay.h **** 
+  90:include/util/delay.h **** /** \ingroup util_delay
+  91:include/util/delay.h **** 
+  92:include/util/delay.h ****     Delay loop using an 8-bit counter \c __count, so up to 256
+  93:include/util/delay.h ****     iterations are possible.  (The value 256 would have to be passed
+  94:include/util/delay.h ****     as 0.)  The loop executes three CPU cycles per iteration, not
+  95:include/util/delay.h ****     including the overhead the compiler needs to setup the counter
+  96:include/util/delay.h ****     register.
+  97:include/util/delay.h **** 
+  98:include/util/delay.h ****     Thus, at a CPU speed of 1 MHz, delays of up to 768 microseconds
+  99:include/util/delay.h ****     can be achieved.
+ 100:include/util/delay.h **** */
+ 101:include/util/delay.h **** void
+ 102:include/util/delay.h **** _delay_loop_1(uint8_t __count)
+ 103:include/util/delay.h **** {
+ 104:include/util/delay.h **** 	__asm__ volatile (
+ 105:include/util/delay.h **** 		"1: dec %0" "\n\t"
+ 106:include/util/delay.h **** 		"brne 1b"
+ 107:include/util/delay.h **** 		: "=r" (__count)
+ 108:include/util/delay.h **** 		: "0" (__count)
+ 109:include/util/delay.h **** 	);
+ 110:include/util/delay.h **** }
+ 111:include/util/delay.h **** 
+ 112:include/util/delay.h **** /** \ingroup util_delay
+ 113:include/util/delay.h **** 
+ 114:include/util/delay.h ****     Delay loop using a 16-bit counter \c __count, so up to 65536
+ 115:include/util/delay.h ****     iterations are possible.  (The value 65536 would have to be
+ 116:include/util/delay.h ****     passed as 0.)  The loop executes four CPU cycles per iteration,
+ 117:include/util/delay.h ****     not including the overhead the compiler requires to setup the
+ 118:include/util/delay.h ****     counter register pair.
+ 119:include/util/delay.h **** 
+ 120:include/util/delay.h ****     Thus, at a CPU speed of 1 MHz, delays of up to about 262.1
+ 121:include/util/delay.h ****     milliseconds can be achieved.
+ 122:include/util/delay.h ****  */
+ 123:include/util/delay.h **** void
+ 124:include/util/delay.h **** _delay_loop_2(uint16_t __count)
+ 125:include/util/delay.h **** {
+ 126:include/util/delay.h **** 	__asm__ volatile (
+ 175               	.LM15:
+ 176 003a 9C01      		movw r18,r24
+ 177               	.L10:
+ 179               	.LM16:
+ 180 003c 2150      		subi r18,lo8(-(-1))
+ 181 003e 3040      		sbci r19,hi8(-(-1))
+ 182 0040 8FEF      		ldi r24,hi8(-1)
+ 183 0042 2F3F      		cpi r18,lo8(-1)
+ 184 0044 3807      		cpc r19,r24
+ 185 0046 29F0      		breq .L9
+ 186               	.LBB2:
+ 188               	.LM17:
+ 189 0048 80E0      		ldi r24,lo8(4608)
+ 190 004a 92E1      		ldi r25,hi8(4608)
+ 191               	.LBB3:
+ 193               	.LM18:
+ 194               	/* #APP */
+ 195 004c 0197      		1: sbiw r24,1
+ 196 004e F1F7      		brne 1b
+ 197               	/* #NOAPP */
+ 198 0050 F5CF      		rjmp .L10
+ 199               	.L9:
+ 200 0052 0895      		ret
+ 201               	.LBE3:
+ 202               	.LBE2:
+ 203               	/* epilogue: frame size=0 */
+ 204               	/* epilogue: noreturn */
+ 205               	/* epilogue end (size=0) */
+ 206               	/* function bisc_delay size 15 (15) */
+ 211               	.Lscope2:
+ 213               	.global	bisc_power_on
+ 215               	bisc_power_on:
+ 217               	.Ltext2:
+ 219               	.LM19:
+ 220               	/* prologue: frame size=0 */
+ 221               	/* prologue end (size=0) */
+ 223               	.LM20:
+ 224 0054 1D99      		sbic 35-0x20,5
+ 225 0056 13C0      		rjmp .L11
+ 227               	.LM21:
+ 228 0058 1D99      		sbic 35-0x20,5
+ 229 005a 0CC0      		rjmp .L17
+ 230               	.L15:
+ 232               	.LM22:
+ 233 005c 5F98      		cbi 43-0x20,7
+ 235               	.LM23:
+ 236 005e 84E6      		ldi r24,lo8(100)
+ 237 0060 90E0      		ldi r25,hi8(100)
+ 238 0062 0E94 0000 		call bisc_delay
+ 240               	.LM24:
+ 241 0066 5F9A      		sbi 43-0x20,7
+ 243               	.LM25:
+ 244 0068 84E6      		ldi r24,lo8(100)
+ 245 006a 90E0      		ldi r25,hi8(100)
+ 246 006c 0E94 0000 		call bisc_delay
+ 247 0070 1D9B      		sbis 35-0x20,5
+ 248 0072 F4CF      		rjmp .L15
+ 249               	.L17:
+ 251               	.LM26:
+ 252 0074 5F98      		cbi 43-0x20,7
+ 254               	.LM27:
+ 255 0076 80ED      		ldi r24,lo8(2000)
+ 256 0078 97E0      		ldi r25,hi8(2000)
+ 257 007a 0E94 0000 		call bisc_delay
+ 258               	.L11:
+ 259 007e 0895      		ret
+ 260               	/* epilogue: frame size=0 */
+ 261               	/* epilogue: noreturn */
+ 262               	/* epilogue end (size=0) */
+ 263               	/* function bisc_power_on size 22 (22) */
+ 265               	.Lscope3:
+ 268               	.global	bisc_atm_baud_from_create
+ 270               	bisc_atm_baud_from_create:
+ 272               	.LM28:
+ 273               	/* prologue: frame size=0 */
+ 274               	/* prologue end (size=0) */
+ 275 0080 282F      		mov r18,r24
+ 277               	.LM29:
+ 278 0082 80E0      		ldi r24,lo8(0)
+ 279 0084 90E0      		ldi r25,hi8(0)
+ 281               	.LM30:
+ 282 0086 2223      		tst r18
+ 283 0088 19F4      		brne .L19
+ 285               	.LM31:
+ 286 008a 8FEF      		ldi r24,lo8(3839)
+ 287 008c 9EE0      		ldi r25,hi8(3839)
+ 288 008e 0895      		ret
+ 289               	.L19:
+ 291               	.LM32:
+ 292 0090 2130      		cpi r18,lo8(1)
+ 293 0092 19F4      		brne .L21
+ 295               	.LM33:
+ 296 0094 8FE7      		ldi r24,lo8(1919)
+ 297 0096 97E0      		ldi r25,hi8(1919)
+ 298 0098 0895      		ret
+ 299               	.L21:
+ 301               	.LM34:
+ 302 009a 2230      		cpi r18,lo8(2)
+ 303 009c 19F4      		brne .L23
+ 305               	.LM35:
+ 306 009e 8FEB      		ldi r24,lo8(959)
+ 307 00a0 93E0      		ldi r25,hi8(959)
+ 308 00a2 0895      		ret
+ 309               	.L23:
+ 311               	.LM36:
+ 312 00a4 2330      		cpi r18,lo8(3)
+ 313 00a6 19F4      		brne .L25
+ 315               	.LM37:
+ 316 00a8 8FED      		ldi r24,lo8(479)
+ 317 00aa 91E0      		ldi r25,hi8(479)
+ 318 00ac 0895      		ret
+ 319               	.L25:
+ 321               	.LM38:
+ 322 00ae 2430      		cpi r18,lo8(4)
+ 323 00b0 19F4      		brne .L27
+ 325               	.LM39:
+ 326 00b2 8FEE      		ldi r24,lo8(239)
+ 327 00b4 90E0      		ldi r25,hi8(239)
+ 328 00b6 0895      		ret
+ 329               	.L27:
+ 331               	.LM40:
+ 332 00b8 2530      		cpi r18,lo8(5)
+ 333 00ba 19F4      		brne .L29
+ 335               	.LM41:
+ 336 00bc 87E7      		ldi r24,lo8(119)
+ 337 00be 90E0      		ldi r25,hi8(119)
+ 338 00c0 0895      		ret
+ 339               	.L29:
+ 341               	.LM42:
+ 342 00c2 2630      		cpi r18,lo8(6)
+ 343 00c4 19F4      		brne .L31
+ 345               	.LM43:
+ 346 00c6 8FE4      		ldi r24,lo8(79)
+ 347 00c8 90E0      		ldi r25,hi8(79)
+ 348 00ca 0895      		ret
+ 349               	.L31:
+ 351               	.LM44:
+ 352 00cc 2830      		cpi r18,lo8(8)
+ 353 00ce 19F4      		brne .L33
+ 355               	.LM45:
+ 356 00d0 87E2      		ldi r24,lo8(39)
+ 357 00d2 90E0      		ldi r25,hi8(39)
+ 358 00d4 0895      		ret
+ 359               	.L33:
+ 361               	.LM46:
+ 362 00d6 2A30      		cpi r18,lo8(10)
+ 363 00d8 19F4      		brne .L35
+ 365               	.LM47:
+ 366 00da 83E1      		ldi r24,lo8(19)
+ 367 00dc 90E0      		ldi r25,hi8(19)
+ 368 00de 0895      		ret
+ 369               	.L35:
+ 371               	.LM48:
+ 372 00e0 2B30      		cpi r18,lo8(11)
+ 373 00e2 11F4      		brne .L20
+ 375               	.LM49:
+ 376 00e4 89E0      		ldi r24,lo8(9)
+ 377 00e6 90E0      		ldi r25,hi8(9)
+ 378               	.L20:
+ 380               	.LM50:
+ 381 00e8 0895      		ret
+ 382               	/* epilogue: frame size=0 */
+ 383               	/* epilogue: noreturn */
+ 384               	/* epilogue end (size=0) */
+ 385               	/* function bisc_atm_baud_from_create size 53 (53) */
+ 390               	.Lscope4:
+ 393               	.global	bisc_baud_all
+ 395               	bisc_baud_all:
+ 397               	.LM51:
+ 398               	/* prologue: frame size=0 */
+ 399 00ea CF93      		push r28
+ 400               	/* prologue end (size=1) */
+ 401 00ec C82F      		mov r28,r24
+ 403               	.LM52:
+ 404 00ee 8C30      		cpi r24,lo8(12)
+ 405 00f0 58F4      		brsh .L38
+ 407               	.LM53:
+ 408 00f2 0E94 0000 		call bisc_baud
+ 410               	.LM54:
+ 411 00f6 8C2F      		mov r24,r28
+ 412 00f8 0E94 0000 		call bisc_atm_baud_from_create
+ 413 00fc 0E94 0000 		call bisc_atm_baud
+ 415               	.LM55:
+ 416 0100 84E6      		ldi r24,lo8(100)
+ 417 0102 90E0      		ldi r25,hi8(100)
+ 418 0104 0E94 0000 		call bisc_delay
+ 419               	.L38:
+ 420               	/* epilogue: frame size=0 */
+ 421 0108 CF91      		pop r28
+ 422 010a 0895      		ret
+ 423               	/* epilogue end (size=2) */
+ 424               	/* function bisc_baud_all size 17 (14) */
+ 426               	.Lscope5:
+ 429               	.global	bisc_led_off
+ 431               	bisc_led_off:
+ 433               	.LM56:
+ 434               	/* prologue: frame size=0 */
+ 435               	/* prologue end (size=0) */
+ 437               	.LM57:
+ 438 010c 40E0      		ldi r20,lo8(0)
+ 439 010e 642F      		mov r22,r20
+ 440 0110 0E94 0000 		call bisc_led
+ 441               	/* epilogue: frame size=0 */
+ 442 0114 0895      		ret
+ 443               	/* epilogue end (size=1) */
+ 444               	/* function bisc_led_off size 5 (4) */
+ 446               	.Lscope6:
+ 448               	.global	bisc_init
+ 450               	bisc_init:
+ 452               	.LM58:
+ 453               	/* prologue: frame size=0 */
+ 454               	/* prologue end (size=0) */
+ 456               	.LM59:
+ 457 0116 0E94 0000 		call bisc_prepare
+ 459               	.LM60:
+ 460 011a 8AE0      		ldi r24,lo8(10)
+ 461 011c 0E94 0000 		call bisc_led_off
+ 463               	.LM61:
+ 464 0120 0E94 0000 		call bisc_power_on
+ 466               	.LM62:
+ 467 0124 0E94 0000 		call bisc_start
+ 469               	.LM63:
+ 470 0128 88E0      		ldi r24,lo8(8)
+ 471 012a 0E94 0000 		call bisc_baud_all
+ 473               	.LM64:
+ 474 012e 0E94 0000 		call bisc_mode_safe
+ 475               	/* epilogue: frame size=0 */
+ 476 0132 0895      		ret
+ 477               	/* epilogue end (size=1) */
+ 478               	/* function bisc_init size 15 (14) */
+ 480               	.Lscope7:
+ 485               	.global	bisc_led_on
+ 487               	bisc_led_on:
+ 489               	.LM65:
+ 490               	/* prologue: frame size=0 */
+ 491               	/* prologue end (size=0) */
+ 493               	.LM66:
+ 494 0134 0E94 0000 		call bisc_led
+ 495               	/* epilogue: frame size=0 */
+ 496 0138 0895      		ret
+ 497               	/* epilogue end (size=1) */
+ 498               	/* function bisc_led_on size 3 (2) */
+ 500               	.Lscope8:
+ 505               	.global	bisc_define_song
+ 507               	bisc_define_song:
+ 108:src/biscuit.c ****     while(ms-- > 0)
+ 109:src/biscuit.c ****   {
+ 110:src/biscuit.c ****     // Call a 1 ms delay loop
+ 111:src/biscuit.c ****     _delay_loop_2(4608);
+ 112:src/biscuit.c ****   }
+ 113:src/biscuit.c **** }
+ 114:src/biscuit.c **** 
+ 115:src/biscuit.c **** 
+ 116:src/biscuit.c **** void bisc_define_song(uint8_t song_num, uint8_t song_len, uint8_t *notes) {
+ 509               	.LM67:
+ 510               	/* prologue: frame size=0 */
+ 511 013a EF92      		push r14
+ 512 013c FF92      		push r15
+ 513 013e 0F93      		push r16
+ 514 0140 1F93      		push r17
+ 515 0142 CF93      		push r28
+ 516 0144 DF93      		push r29
+ 517               	/* prologue end (size=6) */
+ 518 0146 182F      		mov r17,r24
+ 519 0148 062F      		mov r16,r22
+ 520 014a EA01      		movw r28,r20
+ 117:src/biscuit.c ****     bisc_buffer_send(BISC_CMD_DEFINE_SONG);
+ 522               	.LM68:
+ 523 014c 8CE8      		ldi r24,lo8(-116)
+ 524 014e 0E94 0000 		call bisc_buffer_send
+ 118:src/biscuit.c ****     bisc_buffer_send(song_num);
+ 526               	.LM69:
+ 527 0152 812F      		mov r24,r17
+ 528 0154 0E94 0000 		call bisc_buffer_send
+ 119:src/biscuit.c ****     bisc_buffer_send(song_len);
+ 530               	.LM70:
+ 531 0158 802F      		mov r24,r16
+ 532 015a 0E94 0000 		call bisc_buffer_send
+ 533               	.LBB4:
+ 120:src/biscuit.c **** 
+ 121:src/biscuit.c ****     for(int i=0; i<song_len*2; i++) {
+ 535               	.LM71:
+ 536 015e 1127      		clr r17
+ 537 0160 EE24      		clr r14
+ 538 0162 FF24      		clr r15
+ 539 0164 0115      		cp r16,__zero_reg__
+ 540 0166 1105      		cpc r17,__zero_reg__
+ 541 0168 61F0      		breq .L49
+ 542               	.L47:
+ 122:src/biscuit.c ****         bisc_buffer_send(notes[i]);
+ 544               	.LM72:
+ 545 016a 8991      		ld r24,Y+
+ 546 016c 0E94 0000 		call bisc_buffer_send
+ 548               	.LM73:
+ 549 0170 0894      		sec
+ 550 0172 E11C      		adc r14,__zero_reg__
+ 551 0174 F11C      		adc r15,__zero_reg__
+ 552 0176 C801      		movw r24,r16
+ 553 0178 800F      		add r24,r16
+ 554 017a 911F      		adc r25,r17
+ 555 017c E816      		cp r14,r24
+ 556 017e F906      		cpc r15,r25
+ 557 0180 A4F3      		brlt .L47
+ 558               	.L49:
+ 559               	.LBE4:
+ 560               	/* epilogue: frame size=0 */
+ 561 0182 DF91      		pop r29
+ 562 0184 CF91      		pop r28
+ 563 0186 1F91      		pop r17
+ 564 0188 0F91      		pop r16
+ 565 018a FF90      		pop r15
+ 566 018c EF90      		pop r14
+ 567 018e 0895      		ret
+ 568               	/* epilogue end (size=7) */
+ 569               	/* function bisc_define_song size 43 (30) */
+ 574               	.Lscope9:
+ 577               	.global	bisc_play_song
+ 579               	bisc_play_song:
+ 123:src/biscuit.c ****     }
+ 124:src/biscuit.c **** }
+ 125:src/biscuit.c **** 
+ 126:src/biscuit.c **** 
+ 127:src/biscuit.c **** void bisc_play_song(uint16_t song_num) {
+ 581               	.LM74:
+ 582               	/* prologue: frame size=0 */
+ 583 0190 0F93      		push r16
+ 584 0192 1F93      		push r17
+ 585               	/* prologue end (size=2) */
+ 586 0194 8C01      		movw r16,r24
+ 128:src/biscuit.c ****     bisc_buffer_send(BISC_CMD_PLAY_SONG);
+ 588               	.LM75:
+ 589 0196 8DE8      		ldi r24,lo8(-115)
+ 590 0198 0E94 0000 		call bisc_buffer_send
+ 129:src/biscuit.c ****     bisc_buffer_send(song_num);
+ 592               	.LM76:
+ 593 019c 802F      		mov r24,r16
+ 594 019e 0E94 0000 		call bisc_buffer_send
+ 595               	/* epilogue: frame size=0 */
+ 596 01a2 1F91      		pop r17
+ 597 01a4 0F91      		pop r16
+ 598 01a6 0895      		ret
+ 599               	/* epilogue end (size=3) */
+ 600               	/* function bisc_play_song size 12 (7) */
+ 602               	.Lscope10:
+ 603               		.text
+ 605               	Letext:
+ 606               	/* File "src/biscuit.c": code  215 = 0x00d7 ( 189), prologues   9, epilogues  17 */
+DEFINED SYMBOLS
+                            *ABS*:00000000 biscuit.c
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:3      *ABS*:0000003f __SREG__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:4      *ABS*:0000003e __SP_H__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:5      *ABS*:0000003d __SP_L__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:92     .text:00000000 bisc_atm_baud
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:119    .text:00000018 bisc_prepare
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:167    .text:0000003a bisc_delay
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:215    .text:00000054 bisc_power_on
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:270    .text:00000080 bisc_atm_baud_from_create
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:395    .text:000000ea bisc_baud_all
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:431    .text:0000010c bisc_led_off
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:450    .text:00000116 bisc_init
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:487    .text:00000134 bisc_led_on
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:507    .text:0000013a bisc_define_song
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:579    .text:00000190 bisc_play_song
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:605    .text:000001a8 Letext
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+bisc_baud
+bisc_led
+bisc_start
+bisc_mode_safe
+bisc_buffer_send

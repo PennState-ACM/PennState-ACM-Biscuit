@@ -24,6 +24,8 @@
  */
 void bisc_init(void);
 
+void bisc_prepare(void);
+
 /*
  * Powers on the Create
  */
@@ -40,26 +42,6 @@ void bisc_baud_all(uint8_t code);
  * Sets the baud of the Command Module given the Create baud code
  */
 uint16_t bisc_atm_baud_from_create(uint8_t code);
-
-/*
- * Set the baud of the command module
- */
-void bisc_atm_baud(uint8_t code);
-
-/*
- * Sets the operating mode of Create to passive
- */
-void bisc_mode_passive(void);
-
-/*
- * Sets the operating mode of Create to safe
- */
-void bisc_mode_safe(void);
-
-/*
- * Sets the operating mode of Create to full
- */
-void bisc_mode_full(void);
 
 /*
  * Turns on the given led with given color and intensity

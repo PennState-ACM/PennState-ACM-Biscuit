@@ -1,0 +1,407 @@
+   1               		.file	"biscuit_core.c"
+   2               		.arch atmega168
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  86               	.global	bisc_buffer_send
+  88               	bisc_buffer_send:
+   1:src/biscuit_core.c **** #include "biscuit_core.h"
+   2:src/biscuit_core.c **** 
+   3:src/biscuit_core.c **** 
+   4:src/biscuit_core.c **** void bisc_buffer_send(uint8_t value) {
+  90               	.LM1:
+  91               	/* prologue: frame size=0 */
+  92               	/* prologue end (size=0) */
+  93 0000 982F      		mov r25,r24
+  94               	.L2:
+   5:src/biscuit_core.c **** 	//stall until the buffer is empty
+   6:src/biscuit_core.c **** 	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_EMPTY));
+  96               	.LM2:
+  97 0002 8091 C000 		lds r24,192
+  98 0006 85FF      		sbrs r24,5
+  99 0008 FCCF      		rjmp .L2
+   7:src/biscuit_core.c **** 
+   8:src/biscuit_core.c **** 	//write the balue to the data buffer
+   9:src/biscuit_core.c **** 	BISC_IO_DATA_REG = value;
+ 101               	.LM3:
+ 102 000a 9093 C600 		sts 198,r25
+ 103               	/* epilogue: frame size=0 */
+ 104 000e 0895      		ret
+ 105               	/* epilogue end (size=1) */
+ 106               	/* function bisc_buffer_send size 8 (7) */
+ 108               	.Lscope0:
+ 110               	.global	bisc_buffer_read
+ 112               	bisc_buffer_read:
+  10:src/biscuit_core.c **** }
+  11:src/biscuit_core.c **** 
+  12:src/biscuit_core.c **** 
+  13:src/biscuit_core.c **** uint8_t bisc_buffer_read(void) {
+ 114               	.LM4:
+ 115               	/* prologue: frame size=0 */
+ 116               	/* prologue end (size=0) */
+ 117               	.L6:
+  14:src/biscuit_core.c **** 	//stall until the buffer is full
+  15:src/biscuit_core.c **** 	while(!(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL));
+ 119               	.LM5:
+ 120 0010 8091 C000 		lds r24,192
+ 121 0014 8823      		tst r24
+ 122 0016 E4F7      		brge .L6
+  16:src/biscuit_core.c **** 
+  17:src/biscuit_core.c **** 	//read the data
+  18:src/biscuit_core.c **** 	return BISC_IO_DATA_REG;
+ 124               	.LM6:
+ 125 0018 8091 C600 		lds r24,198
+  19:src/biscuit_core.c **** }
+ 127               	.LM7:
+ 128 001c 9927      		clr r25
+ 129               	/* epilogue: frame size=0 */
+ 130 001e 0895      		ret
+ 131               	/* epilogue end (size=1) */
+ 132               	/* function bisc_buffer_read size 9 (8) */
+ 134               	.Lscope1:
+ 136               	.global	bisc_buffer_isReady
+ 138               	bisc_buffer_isReady:
+  20:src/biscuit_core.c **** 
+  21:src/biscuit_core.c **** 
+  22:src/biscuit_core.c **** uint8_t bisc_buffer_isReady(void) {
+ 140               	.LM8:
+ 141               	/* prologue: frame size=0 */
+ 142               	/* prologue end (size=0) */
+  23:src/biscuit_core.c **** 	if(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL) {
+ 144               	.LM9:
+ 145 0020 8091 C000 		lds r24,192
+  24:src/biscuit_core.c **** 		return BISC_TRUE;
+ 147               	.LM10:
+ 148 0024 9927      		clr r25
+ 149 0026 87FD      		sbrc r24,7
+ 150 0028 9095      		com r25
+  25:src/biscuit_core.c **** 	} else {
+  26:src/biscuit_core.c **** 		return BISC_FALSE;
+  27:src/biscuit_core.c **** 	}
+  28:src/biscuit_core.c **** }
+ 152               	.LM11:
+ 153 002a 8827      		clr r24
+ 154 002c 990F      		lsl r25
+ 155 002e 881F      		rol r24
+ 156 0030 9927      		clr r25
+ 157               	/* epilogue: frame size=0 */
+ 158 0032 0895      		ret
+ 159               	/* epilogue end (size=1) */
+ 160               	/* function bisc_buffer_isReady size 10 (9) */
+ 162               	.Lscope2:
+ 164               	.global	bisc_buffer_flush
+ 166               	bisc_buffer_flush:
+  29:src/biscuit_core.c **** 
+  30:src/biscuit_core.c **** 
+  31:src/biscuit_core.c **** void bisc_buffer_flush(void) {
+ 168               	.LM12:
+ 169               	/* prologue: frame size=0 */
+ 170               	/* prologue end (size=0) */
+ 171               	.L18:
+  32:src/biscuit_core.c **** 	uint8_t temp;
+  33:src/biscuit_core.c **** 	while(BISC_IO_STATUS_REG & BISC_IO_STATUS_FULL) {
+  34:src/biscuit_core.c **** 		temp = BISC_IO_DATA_REG;
+ 173               	.LM13:
+ 174 0034 8091 C000 		lds r24,192
+ 175 0038 87FF      		sbrs r24,7
+ 176 003a 03C0      		rjmp .L17
+ 178               	.LM14:
+ 179 003c 8091 C600 		lds r24,198
+ 180 0040 F9CF      		rjmp .L18
+ 181               	.L17:
+ 182 0042 0895      		ret
+ 183               	/* epilogue: frame size=0 */
+ 184               	/* epilogue: noreturn */
+ 185               	/* epilogue end (size=0) */
+ 186               	/* function bisc_buffer_flush size 8 (8) */
+ 191               	.Lscope3:
+ 193               	.global	bisc_start
+ 195               	bisc_start:
+  35:src/biscuit_core.c **** 	}
+  36:src/biscuit_core.c **** }
+  37:src/biscuit_core.c **** 
+  38:src/biscuit_core.c **** 
+  39:src/biscuit_core.c **** void bisc_start(void) {
+ 197               	.LM15:
+ 198               	/* prologue: frame size=0 */
+ 199               	/* prologue end (size=0) */
+  40:src/biscuit_core.c ****     bisc_buffer_send(BISC_CMD_START);
+ 201               	.LM16:
+ 202 0044 80E8      		ldi r24,lo8(-128)
+ 203 0046 0E94 0000 		call bisc_buffer_send
+ 204               	/* epilogue: frame size=0 */
+ 205 004a 0895      		ret
+ 206               	/* epilogue end (size=1) */
+ 207               	/* function bisc_start size 4 (3) */
+ 209               	.Lscope4:
+ 212               	.global	bisc_baud
+ 214               	bisc_baud:
+  41:src/biscuit_core.c **** }
+  42:src/biscuit_core.c **** 
+  43:src/biscuit_core.c **** 
+  44:src/biscuit_core.c **** void bisc_baud(uint8_t value) {
+ 216               	.LM17:
+ 217               	/* prologue: frame size=0 */
+ 218 004c 1F93      		push r17
+ 219               	/* prologue end (size=1) */
+ 220 004e 182F      		mov r17,r24
+  45:src/biscuit_core.c **** 	bisc_buffer_send(BISC_CMD_BAUD);
+ 222               	.LM18:
+ 223 0050 81E8      		ldi r24,lo8(-127)
+ 224 0052 0E94 0000 		call bisc_buffer_send
+  46:src/biscuit_core.c **** 	
+  47:src/biscuit_core.c **** 	//send the code
+  48:src/biscuit_core.c **** 	bisc_buffer_send(value);
+ 226               	.LM19:
+ 227 0056 812F      		mov r24,r17
+ 228 0058 0E94 0000 		call bisc_buffer_send
+ 229               	.L21:
+  49:src/biscuit_core.c **** 	
+  50:src/biscuit_core.c **** 	//stall until the baud is set
+  51:src/biscuit_core.c **** 	while(!(BISC_IO_STATUS_REG & BISC_IO_SEND_COMPLETE));
+ 231               	.LM20:
+ 232 005c 8091 C000 		lds r24,192
+ 233 0060 86FF      		sbrs r24,6
+ 234 0062 FCCF      		rjmp .L21
+ 235               	/* epilogue: frame size=0 */
+ 236 0064 1F91      		pop r17
+ 237 0066 0895      		ret
+ 238               	/* epilogue end (size=2) */
+ 239               	/* function bisc_baud size 14 (11) */
+ 241               	.Lscope5:
+ 243               	.global	bisc_mode_passive
+ 245               	bisc_mode_passive:
+  52:src/biscuit_core.c **** }
+  53:src/biscuit_core.c **** 
+  54:src/biscuit_core.c **** 
+  55:src/biscuit_core.c **** void bisc_mode_passive(void) {
+ 247               	.LM21:
+ 248               	/* prologue: frame size=0 */
+ 249               	/* prologue end (size=0) */
+  56:src/biscuit_core.c ****     bisc_buffer_send(BISC_MODE_PASSIVE);
+ 251               	.LM22:
+ 252 0068 80E8      		ldi r24,lo8(-128)
+ 253 006a 0E94 0000 		call bisc_buffer_send
+ 254               	/* epilogue: frame size=0 */
+ 255 006e 0895      		ret
+ 256               	/* epilogue end (size=1) */
+ 257               	/* function bisc_mode_passive size 4 (3) */
+ 259               	.Lscope6:
+ 261               	.global	bisc_mode_safe
+ 263               	bisc_mode_safe:
+  57:src/biscuit_core.c **** }
+  58:src/biscuit_core.c **** 
+  59:src/biscuit_core.c **** 
+  60:src/biscuit_core.c **** void bisc_mode_safe(void) {
+ 265               	.LM23:
+ 266               	/* prologue: frame size=0 */
+ 267               	/* prologue end (size=0) */
+  61:src/biscuit_core.c ****     bisc_buffer_send(BISC_MODE_SAFE);
+ 269               	.LM24:
+ 270 0070 83E8      		ldi r24,lo8(-125)
+ 271 0072 0E94 0000 		call bisc_buffer_send
+ 272               	/* epilogue: frame size=0 */
+ 273 0076 0895      		ret
+ 274               	/* epilogue end (size=1) */
+ 275               	/* function bisc_mode_safe size 4 (3) */
+ 277               	.Lscope7:
+ 279               	.global	bisc_mode_full
+ 281               	bisc_mode_full:
+  62:src/biscuit_core.c **** }
+  63:src/biscuit_core.c **** 
+  64:src/biscuit_core.c **** 
+  65:src/biscuit_core.c **** void bisc_mode_full(void) {
+ 283               	.LM25:
+ 284               	/* prologue: frame size=0 */
+ 285               	/* prologue end (size=0) */
+  66:src/biscuit_core.c ****     bisc_buffer_send(BISC_MODE_FULL);
+ 287               	.LM26:
+ 288 0078 84E8      		ldi r24,lo8(-124)
+ 289 007a 0E94 0000 		call bisc_buffer_send
+ 290               	/* epilogue: frame size=0 */
+ 291 007e 0895      		ret
+ 292               	/* epilogue end (size=1) */
+ 293               	/* function bisc_mode_full size 4 (3) */
+ 295               	.Lscope8:
+ 300               	.global	bisc_led
+ 302               	bisc_led:
+  67:src/biscuit_core.c **** }
+  68:src/biscuit_core.c **** 
+  69:src/biscuit_core.c **** //TODO: Check for out-of-bounds values
+  70:src/biscuit_core.c **** void bisc_led(uint8_t led, uint8_t color, uint8_t intensity) {
+ 304               	.LM27:
+ 305               	/* prologue: frame size=0 */
+ 306 0080 FF92      		push r15
+ 307 0082 0F93      		push r16
+ 308 0084 1F93      		push r17
+ 309               	/* prologue end (size=3) */
+ 310 0086 182F      		mov r17,r24
+ 311 0088 062F      		mov r16,r22
+ 312 008a F42E      		mov r15,r20
+  71:src/biscuit_core.c ****     bisc_buffer_send(BISC_CMD_LED);
+ 314               	.LM28:
+ 315 008c 8BE8      		ldi r24,lo8(-117)
+ 316 008e 0E94 0000 		call bisc_buffer_send
+  72:src/biscuit_core.c ****     bisc_buffer_send(led);
+ 318               	.LM29:
+ 319 0092 812F      		mov r24,r17
+ 320 0094 0E94 0000 		call bisc_buffer_send
+  73:src/biscuit_core.c ****     bisc_buffer_send(color);
+ 322               	.LM30:
+ 323 0098 802F      		mov r24,r16
+ 324 009a 0E94 0000 		call bisc_buffer_send
+  74:src/biscuit_core.c ****     bisc_buffer_send(intensity);
+ 326               	.LM31:
+ 327 009e 8F2D      		mov r24,r15
+ 328 00a0 0E94 0000 		call bisc_buffer_send
+ 329               	/* epilogue: frame size=0 */
+ 330 00a4 1F91      		pop r17
+ 331 00a6 0F91      		pop r16
+ 332 00a8 FF90      		pop r15
+ 333 00aa 0895      		ret
+ 334               	/* epilogue end (size=4) */
+ 335               	/* function bisc_led size 22 (15) */
+ 337               	.Lscope9:
+ 340               	.global	bisc_sendIR
+ 342               	bisc_sendIR:
+  75:src/biscuit_core.c **** }
+  76:src/biscuit_core.c **** 
+  77:src/biscuit_core.c **** 
+  78:src/biscuit_core.c **** void bisc_sendIR(uint8_t value) {
+ 344               	.LM32:
+ 345               	/* prologue: frame size=0 */
+ 346 00ac 1F93      		push r17
+ 347               	/* prologue end (size=1) */
+ 348 00ae 182F      		mov r17,r24
+  79:src/biscuit_core.c ****     bisc_buffer_send(BISC_CMD_SEND_IR);
+ 350               	.LM33:
+ 351 00b0 87E9      		ldi r24,lo8(-105)
+ 352 00b2 0E94 0000 		call bisc_buffer_send
+  80:src/biscuit_core.c ****     bisc_buffer_send(value);
+ 354               	.LM34:
+ 355 00b6 812F      		mov r24,r17
+ 356 00b8 0E94 0000 		call bisc_buffer_send
+ 357               	/* epilogue: frame size=0 */
+ 358 00bc 1F91      		pop r17
+ 359 00be 0895      		ret
+ 360               	/* epilogue end (size=2) */
+ 361               	/* function bisc_sendIR size 10 (7) */
+ 363               	.Lscope10:
+ 368               	.global	bisc_sensors
+ 370               	bisc_sensors:
+  81:src/biscuit_core.c **** }
+  82:src/biscuit_core.c **** 
+  83:src/biscuit_core.c **** 
+  84:src/biscuit_core.c **** int8_t bisc_sensors(uint8_t sensor, uint8_t* values, uint8_t size) {
+ 372               	.LM35:
+ 373               	/* prologue: frame size=0 */
+ 374 00c0 CF92      		push r12
+ 375 00c2 DF92      		push r13
+ 376 00c4 EF92      		push r14
+ 377 00c6 FF92      		push r15
+ 378 00c8 0F93      		push r16
+ 379 00ca 1F93      		push r17
+ 380 00cc CF93      		push r28
+ 381 00ce DF93      		push r29
+ 382               	/* prologue end (size=8) */
+ 383 00d0 182F      		mov r17,r24
+ 384 00d2 6B01      		movw r12,r22
+ 385 00d4 042F      		mov r16,r20
+  85:src/biscuit_core.c **** 	//send the command to query for sensor data
+  86:src/biscuit_core.c **** 	bisc_buffer_send(BISC_CMD_SENSORS);
+ 387               	.LM36:
+ 388 00d6 8EE8      		ldi r24,lo8(-114)
+ 389 00d8 0E94 0000 		call bisc_buffer_send
+  87:src/biscuit_core.c **** 	bisc_buffer_send(sensor);
+ 391               	.LM37:
+ 392 00dc 812F      		mov r24,r17
+ 393 00de 0E94 0000 		call bisc_buffer_send
+ 394               	.LBB2:
+  88:src/biscuit_core.c **** 
+  89:src/biscuit_core.c **** 	//place the returned sensor data in values
+  90:src/biscuit_core.c **** 	for(int i = 0; i < size; i++) {
+ 396               	.LM38:
+ 397 00e2 C0E0      		ldi r28,lo8(0)
+ 398 00e4 D0E0      		ldi r29,hi8(0)
+ 399 00e6 E02E      		mov r14,r16
+ 400 00e8 FF24      		clr r15
+ 401 00ea CE15      		cp r28,r14
+ 402 00ec DF05      		cpc r29,r15
+ 403 00ee 74F4      		brge .L31
+ 404 00f0 8601      		movw r16,r12
+ 405               	.L35:
+  91:src/biscuit_core.c **** 		if(bisc_buffer_isReady()) {
+ 407               	.LM39:
+ 408 00f2 0E94 0000 		call bisc_buffer_isReady
+ 409 00f6 8823      		tst r24
+ 410 00f8 49F0      		breq .L31
+  92:src/biscuit_core.c **** 			values[i] = bisc_buffer_read();
+ 412               	.LM40:
+ 413 00fa 0E94 0000 		call bisc_buffer_read
+ 414 00fe F801      		movw r30,r16
+ 415 0100 8193      		st Z+,r24
+ 416 0102 8F01      		movw r16,r30
+ 418               	.LM41:
+ 419 0104 2196      		adiw r28,1
+ 420 0106 CE15      		cp r28,r14
+ 421 0108 DF05      		cpc r29,r15
+ 422 010a 9CF3      		brlt .L35
+ 423               	.L31:
+ 424               	.LBE2:
+  93:src/biscuit_core.c **** 		} else {
+  94:src/biscuit_core.c **** 			break;
+  95:src/biscuit_core.c **** 		}
+  96:src/biscuit_core.c **** 	}
+  97:src/biscuit_core.c **** 
+  98:src/biscuit_core.c **** 	//everything went smoothly
+  99:src/biscuit_core.c **** 	return BISC_ERR_NONE;
+ 100:src/biscuit_core.c **** }
+ 426               	.LM42:
+ 427 010c 80E0      		ldi r24,lo8(0)
+ 428 010e 90E0      		ldi r25,hi8(0)
+ 429               	/* epilogue: frame size=0 */
+ 430 0110 DF91      		pop r29
+ 431 0112 CF91      		pop r28
+ 432 0114 1F91      		pop r17
+ 433 0116 0F91      		pop r16
+ 434 0118 FF90      		pop r15
+ 435 011a EF90      		pop r14
+ 436 011c DF90      		pop r13
+ 437 011e CF90      		pop r12
+ 438 0120 0895      		ret
+ 439               	/* epilogue end (size=9) */
+ 440               	/* function bisc_sensors size 49 (32) */
+ 445               	.Lscope11:
+ 446               		.text
+ 448               	Letext:
+ 449               	/* File "src/biscuit_core.c": code  146 = 0x0092 ( 109), prologues  13, epilogues  24 */
+DEFINED SYMBOLS
+                            *ABS*:00000000 biscuit_core.c
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:3      *ABS*:0000003f __SREG__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:4      *ABS*:0000003e __SP_H__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:5      *ABS*:0000003d __SP_L__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:88     .text:00000000 bisc_buffer_send
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:112    .text:00000010 bisc_buffer_read
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:138    .text:00000020 bisc_buffer_isReady
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:166    .text:00000034 bisc_buffer_flush
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:195    .text:00000044 bisc_start
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:214    .text:0000004c bisc_baud
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:245    .text:00000068 bisc_mode_passive
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:263    .text:00000070 bisc_mode_safe
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:281    .text:00000078 bisc_mode_full
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:302    .text:00000080 bisc_led
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:342    .text:000000ac bisc_sendIR
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:370    .text:000000c0 bisc_sensors
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:448    .text:00000122 Letext
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

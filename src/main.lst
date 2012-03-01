@@ -1,0 +1,88 @@
+   1               		.file	"main.c"
+   2               		.arch atmega168
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  91               	.global	main
+  93               	main:
+   1:src/main.c    **** #include "main.h"
+   2:src/main.c    **** #include "init_stock.h"
+   3:src/main.c    **** 
+   4:src/main.c    **** int main(void) {
+  95               	.LM1:
+  96               	/* prologue: frame size=0 */
+  97 0000 C0E0      		ldi r28,lo8(__stack - 0)
+  98 0002 D0E0      		ldi r29,hi8(__stack - 0)
+  99 0004 DEBF      		out __SP_H__,r29
+ 100 0006 CDBF      		out __SP_L__,r28
+ 101               	/* prologue end (size=4) */
+   5:src/main.c    ****     init_stock();
+ 103               	.LM2:
+ 104 0008 0E94 0000 		call init_stock
+   6:src/main.c    **** 
+   7:src/main.c    ****     uint8_t value = 0;
+ 106               	.LM3:
+ 107 000c C0E0      		ldi r28,lo8(0)
+ 108               	.L2:
+   8:src/main.c    ****     while(1) {
+   9:src/main.c    ****         if(value % 2 == 0) {
+ 110               	.LM4:
+ 111 000e C0FD      		sbrc r28,0
+ 112 0010 06C0      		rjmp .L4
+  10:src/main.c    ****             bisc_led_on(BISC_LED_BOTH, 255, 255);
+ 114               	.LM5:
+ 115 0012 4FEF      		ldi r20,lo8(-1)
+ 116 0014 642F      		mov r22,r20
+ 117 0016 8AE0      		ldi r24,lo8(10)
+ 118 0018 0E94 0000 		call bisc_led_on
+ 119 001c 03C0      		rjmp .L5
+ 120               	.L4:
+  11:src/main.c    ****         }
+  12:src/main.c    ****         else {
+  13:src/main.c    ****             bisc_led_off(BISC_LED_BOTH);
+ 122               	.LM6:
+ 123 001e 8AE0      		ldi r24,lo8(10)
+ 124 0020 0E94 0000 		call bisc_led_off
+ 125               	.L5:
+  14:src/main.c    ****         }
+  15:src/main.c    **** 		bisc_delay(300);
+ 127               	.LM7:
+ 128 0024 8CE2      		ldi r24,lo8(300)
+ 129 0026 91E0      		ldi r25,hi8(300)
+ 130 0028 0E94 0000 		call bisc_delay
+  16:src/main.c    ****         value++;
+ 132               	.LM8:
+ 133 002c CF5F      		subi r28,lo8(-(1))
+ 134 002e EFCF      		rjmp .L2
+ 135               	/* epilogue: frame size=0 */
+ 136               	/* epilogue: noreturn */
+ 137               	/* epilogue end (size=0) */
+ 138               	/* function main size 24 (20) */
+ 143               	.Lscope0:
+ 144               		.text
+ 146               	Letext:
+ 147               	/* File "src/main.c": code   24 = 0x0018 (  20), prologues   4, epilogues   0 */
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:3      *ABS*:0000003f __SREG__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:4      *ABS*:0000003e __SP_H__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:5      *ABS*:0000003d __SP_L__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:93     .text:00000000 main
+C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:146    .text:00000030 Letext
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__stack
+init_stock
+bisc_led_on
+bisc_led_off
+bisc_delay

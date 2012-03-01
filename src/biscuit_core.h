@@ -58,7 +58,7 @@
 #define BISC_BAUD_115200        11
 
 #define BISC_BAUD_REC           BISC_BAUD_28800
-#define BISC_BAUD_MAX           BISC_BAUD_115200
+#define BISC_BAUD_MAX			BISC_BAUD_115200
 
 //command module codes
 #define BISC_ATM_BAUD_300       3839
@@ -237,7 +237,7 @@ uint8_t bisc_buffer_isReady(void);
  * Clears the byte being received in the data IO buffer
  * And sets the control register to be able to send
  */
-void bisc_buffer_clear(void);
+void bisc_buffer_flush(void);
 
 /*
  * Starts the Open Interface
@@ -250,11 +250,24 @@ void bisc_start(void);
 void bisc_baud(uint8_t value);
 
 /*
- * Sets the operating mode of Create
- *
- * mode: BISC_MODE_PASSIVE, BISC_MODE_SAFE, or BISC_MODE_FULL
+ * Set the baud of the command module
  */
-void bisc_setMode(uint8_t mode);
+void bisc_atm_baud(uint8_t code);
+
+/*
+ * Sets the operating mode of Create to passive
+ */
+void bisc_mode_passive(void);
+
+/*
+ * Sets the operating mode of Create to safe
+ */
+void bisc_mode_safe(void);
+
+/*
+ * Sets the operating mode of Create to full
+ */
+void bisc_mode_full(void);
 
 /*
  * description

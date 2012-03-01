@@ -3,6 +3,16 @@
 
 void bisc_init(void) {
     //TODO: when we handle interrupt stuff, it will go here
+    bisc_prepare();
+    
+    bisc_led_off(BISC_LED_BOTH);
+    bisc_power_on();
+    bisc_start();
+    bisc_baud_all(BISC_BAUD_REC);
+    bisc_mode_safe();
+}
+
+void bisc_prepare() {
     cli();
 
     // Configure the I/O pins
@@ -13,14 +23,8 @@ void bisc_init(void) {
     PORTC = 0xFF;
     DDRD = 0xE6;
     PORTD = 0x7D;
-
+    
     bisc_atm_baud(BISC_ATM_BAUD_57600);
-
-    bisc_led_off(BISC_LED_BOTH);
-    bisc_power_on();
-    bisc_start();
-    bisc_baud_all(BISC_BAUD_REC);
-    bisc_mode_safe();
 }
 
 
@@ -46,12 +50,11 @@ void bisc_power_on(void) {
 
 
 void bisc_baud_all(uint8_t code) {
-    // warning: comparison is always true due to limited range of data type
-    if(code >= 0 && code <= BISC_BAUD_MAX) {
-        bisc_baud(code);
-        bisc_atm_baud(bisc_atm_baud_from_create(code));
-        bisc_delay(100);
-    } 
+	if(code <= BISC_BAUD_MAX) {		
+		bisc_baud(code);
+		bisc_atm_baud(bisc_atm_baud_from_create(code));
+		bisc_delay(100);
+	}
 }
 
 void bisc_atm_baud(uint8_t code) {
@@ -90,22 +93,6 @@ uint16_t bisc_atm_baud_from_create(uint8_t code) {
     return atm_code;
 }
 
-
-void bisc_mode_passive(void) {
-    bisc_setMode(BISC_MODE_PASSIVE);
-}
-
-
-void bisc_mode_safe(void) {
-    bisc_setMode(BISC_MODE_SAFE);
-}
-
-
-void bisc_mode_full(void) {
-    bisc_setMode(BISC_MODE_FULL);
-}
-
-
 void bisc_led_on(uint8_t led, uint8_t color, uint8_t intensity) {
     bisc_led(led, color, intensity);
 }
@@ -116,9 +103,13 @@ void bisc_led_off(uint8_t led) {
 }
 
 
+//delay in centiseconds
 void bisc_delay(uint16_t ms) {
-    //for now, just busy wait
-    _delay_ms(ms);
+    while(ms-- > 0)
+  {
+    // Call a 1 ms delay loop
+    _delay_loop_2(4608);
+  }
 }
 
 

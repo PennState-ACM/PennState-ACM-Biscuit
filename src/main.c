@@ -1,7 +1,8 @@
 #include "main.h"
+#include "init_stock.h"
 
 int main(void) {
-    bisc_init();
+    init_stock();
 
     uint8_t value = 0;
     while(1) {
@@ -11,7 +12,7 @@ int main(void) {
         else {
             bisc_led_off(BISC_LED_BOTH);
         }
-
+		bisc_delay(300);
         value++;
     }
 

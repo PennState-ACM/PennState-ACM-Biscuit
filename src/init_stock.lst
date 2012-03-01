@@ -1,0 +1,637 @@
+   1               		.file	"init_stock.c"
+   2               		.arch atmega168
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  11               		.text
+  12               	.Ltext0:
+  91               	.global	initialize
+  93               	initialize:
+   1:src/init_stock.c **** #include "init_stock.h"
+   2:src/init_stock.c **** 
+   3:src/init_stock.c **** void init_stock(void) {
+   4:src/init_stock.c ****   initialize();
+   5:src/init_stock.c ****   powerOnRobot();
+   6:src/init_stock.c ****   baud28k();
+   7:src/init_stock.c ****   byteTx(CmdFull);
+   8:src/init_stock.c ****   flushRx();
+   9:src/init_stock.c **** }
+  10:src/init_stock.c **** 
+  11:src/init_stock.c **** void init_stock_1(void){
+  12:src/init_stock.c ****   bisc_init();
+  13:src/init_stock.c ****   powerOnRobot();
+  14:src/init_stock.c ****   baud28k();
+  15:src/init_stock.c ****   byteTx(CmdFull);
+  16:src/init_stock.c ****   flushRx();
+  17:src/init_stock.c **** }
+  18:src/init_stock.c **** 
+  19:src/init_stock.c **** void init_stock_2(void) {
+  20:src/init_stock.c ****     bisc_init();
+  21:src/init_stock.c ****     bisc_power_on();
+  22:src/init_stock.c ****     baud28k();
+  23:src/init_stock.c ****     byteTx(CmdFull);
+  24:src/init_stock.c ****     flushRx();
+  25:src/init_stock.c **** }
+  26:src/init_stock.c **** 
+  27:src/init_stock.c **** void init_stock_3(void) {
+  28:src/init_stock.c ****     bisc_init();
+  29:src/init_stock.c ****     bisc_power_on();
+  30:src/init_stock.c ****     bisc_baud_all(BISC_BAUD_REC);
+  31:src/init_stock.c ****     byteTx(CmdFull);
+  32:src/init_stock.c ****     flushRx();
+  33:src/init_stock.c **** }
+  34:src/init_stock.c **** 
+  35:src/init_stock.c **** void init_stock_4(void) {
+  36:src/init_stock.c ****     bisc_init();
+  37:src/init_stock.c ****     bisc_power_on();
+  38:src/init_stock.c ****     bisc_baud_all(BISC_BAUD_REC);
+  39:src/init_stock.c ****     bisc_mode_full();
+  40:src/init_stock.c ****     flushRx();
+  41:src/init_stock.c **** }
+  42:src/init_stock.c **** 
+  43:src/init_stock.c **** void init_stock_5(void) {
+  44:src/init_stock.c ****     bisc_init();
+  45:src/init_stock.c ****     bisc_power_on();
+  46:src/init_stock.c ****     bisc_baud_all(BISC_BAUD_REC);
+  47:src/init_stock.c ****     bisc_mode_full();
+  48:src/init_stock.c ****     bisc_buffer_flush();
+  49:src/init_stock.c **** }
+  50:src/init_stock.c **** 
+  51:src/init_stock.c **** void initialize(void)
+  52:src/init_stock.c **** {
+  95               	.LM1:
+  96               	/* prologue: frame size=0 */
+  97               	/* prologue end (size=0) */
+  53:src/init_stock.c ****   // Turn off interrupts
+  54:src/init_stock.c ****   cli();
+  99               	.LM2:
+ 100               	/* #APP */
+ 101 0000 F894      		cli
+  55:src/init_stock.c **** 
+  56:src/init_stock.c ****   // Configure the I/O pins
+  57:src/init_stock.c ****   DDRB = 0x10;
+ 103               	.LM3:
+ 104               	/* #NOAPP */
+ 105 0002 80E1      		ldi r24,lo8(16)
+ 106 0004 84B9      		out 36-0x20,r24
+  58:src/init_stock.c ****   PORTB = 0xCF;
+ 108               	.LM4:
+ 109 0006 8FEC      		ldi r24,lo8(-49)
+ 110 0008 85B9      		out 37-0x20,r24
+  59:src/init_stock.c ****   DDRC = 0x02;
+ 112               	.LM5:
+ 113 000a 82E0      		ldi r24,lo8(2)
+ 114 000c 87B9      		out 39-0x20,r24
+  60:src/init_stock.c ****   PORTC = 0xFF;
+ 116               	.LM6:
+ 117 000e 8FEF      		ldi r24,lo8(-1)
+ 118 0010 88B9      		out 40-0x20,r24
+  61:src/init_stock.c ****   DDRD = 0xE6;
+ 120               	.LM7:
+ 121 0012 86EE      		ldi r24,lo8(-26)
+ 122 0014 8AB9      		out 42-0x20,r24
+  62:src/init_stock.c ****   PORTD = 0x7D;
+ 124               	.LM8:
+ 125 0016 8DE7      		ldi r24,lo8(125)
+ 126 0018 8BB9      		out 43-0x20,r24
+  63:src/init_stock.c **** 
+  64:src/init_stock.c ****   // Set up the serial port for 57600 baud
+  65:src/init_stock.c ****   UBRR0 = Ubrr57600;
+ 128               	.LM9:
+ 129 001a 83E1      		ldi r24,lo8(19)
+ 130 001c 90E0      		ldi r25,hi8(19)
+ 131 001e 9093 C500 		sts (196)+1,r25
+ 132 0022 8093 C400 		sts 196,r24
+  66:src/init_stock.c ****   UCSR0B = (_BV(TXEN0) | _BV(RXEN0));
+ 134               	.LM10:
+ 135 0026 88E1      		ldi r24,lo8(24)
+ 136 0028 8093 C100 		sts 193,r24
+  67:src/init_stock.c ****   UCSR0C = (_BV(UCSZ00) | _BV(UCSZ01));
+ 138               	.LM11:
+ 139 002c 86E0      		ldi r24,lo8(6)
+ 140 002e 8093 C200 		sts 194,r24
+ 141               	/* epilogue: frame size=0 */
+ 142 0032 0895      		ret
+ 143               	/* epilogue end (size=1) */
+ 144               	/* function initialize size 27 (26) */
+ 146               	.Lscope0:
+ 149               	.global	byteTx
+ 151               	byteTx:
+  68:src/init_stock.c **** }
+  69:src/init_stock.c **** 
+  70:src/init_stock.c **** void powerOnRobot(void)
+  71:src/init_stock.c **** {
+  72:src/init_stock.c ****   // If Create's power is off, turn it on
+  73:src/init_stock.c ****   if(!RobotIsOn)
+  74:src/init_stock.c ****   {
+  75:src/init_stock.c ****       while(!RobotIsOn)
+  76:src/init_stock.c ****       {
+  77:src/init_stock.c ****           RobotPwrToggleLow;
+  78:src/init_stock.c ****           delay10ms(50);  // Delay in this state
+  79:src/init_stock.c ****           RobotPwrToggleHigh;  // Low to high transition to toggle power
+  80:src/init_stock.c ****           delay10ms(10);  // Delay in this state
+  81:src/init_stock.c ****           RobotPwrToggleLow;
+  82:src/init_stock.c ****       }
+  83:src/init_stock.c ****       delay10ms(350);  // Delay for startup
+  84:src/init_stock.c ****   }
+  85:src/init_stock.c **** }
+  86:src/init_stock.c **** 
+  87:src/init_stock.c **** void baud28k(void)
+  88:src/init_stock.c **** {
+  89:src/init_stock.c ****   // Send the baud change command for 28800 baud
+  90:src/init_stock.c ****   byteTx(CmdBaud);
+  91:src/init_stock.c ****   byteTx(Baud28800);
+  92:src/init_stock.c **** 
+  93:src/init_stock.c ****   // Wait while until the command is sent
+  94:src/init_stock.c ****   while(!(UCSR0A & _BV(TXC0))) ;
+  95:src/init_stock.c **** 
+  96:src/init_stock.c ****   // Change the atmel's baud rate
+  97:src/init_stock.c ****   UBRR0 = Ubrr28800;
+  98:src/init_stock.c **** 
+  99:src/init_stock.c ****   // Wait 100 ms
+ 100:src/init_stock.c ****   delay10ms(10);
+ 101:src/init_stock.c **** }
+ 102:src/init_stock.c **** 
+ 103:src/init_stock.c **** void delay10ms(uint16_t delay_10ms)
+ 104:src/init_stock.c **** {
+ 105:src/init_stock.c ****   // Delay for (delay_10ms * 10) ms
+ 106:src/init_stock.c ****   while(delay_10ms-- > 0)
+ 107:src/init_stock.c ****   {
+ 108:src/init_stock.c ****     // Call a 10 ms delay loop
+ 109:src/init_stock.c ****     _delay_loop_2(46080);
+ 110:src/init_stock.c ****   }
+ 111:src/init_stock.c **** }
+ 112:src/init_stock.c **** 
+ 113:src/init_stock.c **** uint8_t byteRx(void)
+ 114:src/init_stock.c **** {
+ 115:src/init_stock.c ****   // Receive a byte over the serial port (UART)
+ 116:src/init_stock.c ****   while(!(UCSR0A & _BV(RXC0))) ;
+ 117:src/init_stock.c ****   return UDR0;
+ 118:src/init_stock.c **** }
+ 119:src/init_stock.c **** 
+ 120:src/init_stock.c **** void flushRx(void)
+ 121:src/init_stock.c **** {
+ 122:src/init_stock.c ****   uint8_t temp;
+ 123:src/init_stock.c **** 
+ 124:src/init_stock.c ****   // Clear the serial port
+ 125:src/init_stock.c ****   while(UCSR0A & _BV(RXC0))
+ 126:src/init_stock.c ****     temp = UDR0;
+ 127:src/init_stock.c **** }
+ 128:src/init_stock.c **** 
+ 129:src/init_stock.c **** void byteTx(uint8_t value)
+ 130:src/init_stock.c **** {
+ 153               	.LM12:
+ 154               	/* prologue: frame size=0 */
+ 155               	/* prologue end (size=0) */
+ 156 0034 982F      		mov r25,r24
+ 157               	.L3:
+ 131:src/init_stock.c ****   // Send a byte over the serial port
+ 132:src/init_stock.c ****   while(!(UCSR0A & _BV(UDRE0))) ;
+ 159               	.LM13:
+ 160 0036 8091 C000 		lds r24,192
+ 161 003a 85FF      		sbrs r24,5
+ 162 003c FCCF      		rjmp .L3
+ 133:src/init_stock.c ****   UDR0 = value;
+ 164               	.LM14:
+ 165 003e 9093 C600 		sts 198,r25
+ 166               	/* epilogue: frame size=0 */
+ 167 0042 0895      		ret
+ 168               	/* epilogue end (size=1) */
+ 169               	/* function byteTx size 8 (7) */
+ 171               	.Lscope1:
+ 173               	.global	flushRx
+ 175               	flushRx:
+ 177               	.LM15:
+ 178               	/* prologue: frame size=0 */
+ 179               	/* prologue end (size=0) */
+ 180               	.L12:
+ 182               	.LM16:
+ 183 0044 8091 C000 		lds r24,192
+ 184 0048 87FF      		sbrs r24,7
+ 185 004a 03C0      		rjmp .L11
+ 187               	.LM17:
+ 188 004c 8091 C600 		lds r24,198
+ 189 0050 F9CF      		rjmp .L12
+ 190               	.L11:
+ 191 0052 0895      		ret
+ 192               	/* epilogue: frame size=0 */
+ 193               	/* epilogue: noreturn */
+ 194               	/* epilogue end (size=0) */
+ 195               	/* function flushRx size 8 (8) */
+ 200               	.Lscope2:
+ 202               	.global	init_stock_3
+ 204               	init_stock_3:
+ 206               	.LM18:
+ 207               	/* prologue: frame size=0 */
+ 208               	/* prologue end (size=0) */
+ 210               	.LM19:
+ 211 0054 0E94 0000 		call bisc_init
+ 213               	.LM20:
+ 214 0058 0E94 0000 		call bisc_power_on
+ 216               	.LM21:
+ 217 005c 88E0      		ldi r24,lo8(8)
+ 218 005e 0E94 0000 		call bisc_baud_all
+ 220               	.LM22:
+ 221 0062 84E8      		ldi r24,lo8(-124)
+ 222 0064 0E94 0000 		call byteTx
+ 224               	.LM23:
+ 225 0068 0E94 0000 		call flushRx
+ 226               	/* epilogue: frame size=0 */
+ 227 006c 0895      		ret
+ 228               	/* epilogue end (size=1) */
+ 229               	/* function init_stock_3 size 13 (12) */
+ 231               	.Lscope3:
+ 233               	.global	init_stock_4
+ 235               	init_stock_4:
+ 237               	.LM24:
+ 238               	/* prologue: frame size=0 */
+ 239               	/* prologue end (size=0) */
+ 241               	.LM25:
+ 242 006e 0E94 0000 		call bisc_init
+ 244               	.LM26:
+ 245 0072 0E94 0000 		call bisc_power_on
+ 247               	.LM27:
+ 248 0076 88E0      		ldi r24,lo8(8)
+ 249 0078 0E94 0000 		call bisc_baud_all
+ 251               	.LM28:
+ 252 007c 0E94 0000 		call bisc_mode_full
+ 254               	.LM29:
+ 255 0080 0E94 0000 		call flushRx
+ 256               	/* epilogue: frame size=0 */
+ 257 0084 0895      		ret
+ 258               	/* epilogue end (size=1) */
+ 259               	/* function init_stock_4 size 12 (11) */
+ 261               	.Lscope4:
+ 263               	.global	init_stock_5
+ 265               	init_stock_5:
+ 267               	.LM30:
+ 268               	/* prologue: frame size=0 */
+ 269               	/* prologue end (size=0) */
+ 271               	.LM31:
+ 272 0086 0E94 0000 		call bisc_init
+ 274               	.LM32:
+ 275 008a 0E94 0000 		call bisc_power_on
+ 277               	.LM33:
+ 278 008e 88E0      		ldi r24,lo8(8)
+ 279 0090 0E94 0000 		call bisc_baud_all
+ 281               	.LM34:
+ 282 0094 0E94 0000 		call bisc_mode_full
+ 284               	.LM35:
+ 285 0098 0E94 0000 		call bisc_buffer_flush
+ 286               	/* epilogue: frame size=0 */
+ 287 009c 0895      		ret
+ 288               	/* epilogue end (size=1) */
+ 289               	/* function init_stock_5 size 12 (11) */
+ 291               	.Lscope5:
+ 294               	.global	delay10ms
+ 296               	delay10ms:
+ 298               	.LM36:
+ 299               	/* prologue: frame size=0 */
+ 300               	/* prologue end (size=0) */
+ 302               	.Ltext1:
+   1:include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:include/util/delay.h ****    Copyright (c) 2004,2005 Joerg Wunsch
+   3:include/util/delay.h ****    All rights reserved.
+   4:include/util/delay.h **** 
+   5:include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   6:include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   7:include/util/delay.h **** 
+   8:include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+   9:include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  10:include/util/delay.h **** 
+  11:include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  12:include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  13:include/util/delay.h ****      the documentation and/or other materials provided with the
+  14:include/util/delay.h ****      distribution.
+  15:include/util/delay.h **** 
+  16:include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  17:include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  18:include/util/delay.h ****      from this software without specific prior written permission.
+  19:include/util/delay.h **** 
+  20:include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  21:include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  22:include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  23:include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  24:include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  25:include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  26:include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  27:include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  28:include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  29:include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  30:include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  31:include/util/delay.h **** 
+  32:include/util/delay.h **** /* $Id: delay.h,v 1.1.2.1 2005/12/12 23:19:49 joerg_wunsch Exp $ */
+  33:include/util/delay.h **** 
+  34:include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  35:include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  36:include/util/delay.h **** 
+  37:include/util/delay.h **** #include <inttypes.h>
+  38:include/util/delay.h **** 
+  39:include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Busy-wait delay loops
+  40:include/util/delay.h ****     \code
+  41:include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  42:include/util/delay.h ****     //#define F_CPU 14.7456E6
+  43:include/util/delay.h ****     #include <util/delay.h>
+  44:include/util/delay.h ****     \endcode
+  45:include/util/delay.h **** 
+  46:include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  47:include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  48:include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  49:include/util/delay.h ****     used.
+  50:include/util/delay.h **** 
+  51:include/util/delay.h ****     The functions in this header file implement simple delay loops
+  52:include/util/delay.h ****     that perform a busy-waiting.  They are typically used to
+  53:include/util/delay.h ****     facilitate short delays in the program execution.  They are
+  54:include/util/delay.h ****     implemented as count-down loops with a well-known CPU cycle
+  55:include/util/delay.h ****     count per loop iteration.  As such, no other processing can
+  56:include/util/delay.h ****     occur simultaneously.  It should be kept in mind that the
+  57:include/util/delay.h ****     functions described here do not disable interrupts.
+  58:include/util/delay.h **** 
+  59:include/util/delay.h ****     In general, for long delays, the use of hardware timers is
+  60:include/util/delay.h ****     much preferrable, as they free the CPU, and allow for
+  61:include/util/delay.h ****     concurrent processing of other events while the timer is
+  62:include/util/delay.h ****     running.  However, in particular for very short delays, the
+  63:include/util/delay.h ****     overhead of setting up a hardware timer is too much compared
+  64:include/util/delay.h ****     to the overall delay time.
+  65:include/util/delay.h **** 
+  66:include/util/delay.h ****     Two inline functions are provided for the actual delay algorithms.
+  67:include/util/delay.h **** 
+  68:include/util/delay.h ****     Two wrapper functions allow the specification of microsecond, and
+  69:include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  70:include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).  These functions
+  71:include/util/delay.h ****     operate on double typed arguments, however when optimization is
+  72:include/util/delay.h ****     turned on, the entire floating-point calculation will be done at
+  73:include/util/delay.h ****     compile-time.
+  74:include/util/delay.h **** 
+  75:include/util/delay.h ****     \note When using _delay_us() and _delay_ms(), the expressions
+  76:include/util/delay.h ****     passed as arguments to these functions shall be compile-time
+  77:include/util/delay.h ****     constants, otherwise the floating-point calculations to setup the
+  78:include/util/delay.h ****     loops will be done at run-time, thereby drastically increasing
+  79:include/util/delay.h ****     both the resulting code size, as well as the time required to
+  80:include/util/delay.h ****     setup the loops.
+  81:include/util/delay.h **** */
+  82:include/util/delay.h **** 
+  83:include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:include/util/delay.h **** static inline void _delay_loop_1(uint8_t __count) __attribute__((always_inline));
+  85:include/util/delay.h **** static inline void _delay_loop_2(uint16_t __count) __attribute__((always_inline));
+  86:include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  87:include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  88:include/util/delay.h **** #endif
+  89:include/util/delay.h **** 
+  90:include/util/delay.h **** /** \ingroup util_delay
+  91:include/util/delay.h **** 
+  92:include/util/delay.h ****     Delay loop using an 8-bit counter \c __count, so up to 256
+  93:include/util/delay.h ****     iterations are possible.  (The value 256 would have to be passed
+  94:include/util/delay.h ****     as 0.)  The loop executes three CPU cycles per iteration, not
+  95:include/util/delay.h ****     including the overhead the compiler needs to setup the counter
+  96:include/util/delay.h ****     register.
+  97:include/util/delay.h **** 
+  98:include/util/delay.h ****     Thus, at a CPU speed of 1 MHz, delays of up to 768 microseconds
+  99:include/util/delay.h ****     can be achieved.
+ 100:include/util/delay.h **** */
+ 101:include/util/delay.h **** void
+ 102:include/util/delay.h **** _delay_loop_1(uint8_t __count)
+ 103:include/util/delay.h **** {
+ 104:include/util/delay.h **** 	__asm__ volatile (
+ 105:include/util/delay.h **** 		"1: dec %0" "\n\t"
+ 106:include/util/delay.h **** 		"brne 1b"
+ 107:include/util/delay.h **** 		: "=r" (__count)
+ 108:include/util/delay.h **** 		: "0" (__count)
+ 109:include/util/delay.h **** 	);
+ 110:include/util/delay.h **** }
+ 111:include/util/delay.h **** 
+ 112:include/util/delay.h **** /** \ingroup util_delay
+ 113:include/util/delay.h **** 
+ 114:include/util/delay.h ****     Delay loop using a 16-bit counter \c __count, so up to 65536
+ 115:include/util/delay.h ****     iterations are possible.  (The value 65536 would have to be
+ 116:include/util/delay.h ****     passed as 0.)  The loop executes four CPU cycles per iteration,
+ 117:include/util/delay.h ****     not including the overhead the compiler requires to setup the
+ 118:include/util/delay.h ****     counter register pair.
+ 119:include/util/delay.h **** 
+ 120:include/util/delay.h ****     Thus, at a CPU speed of 1 MHz, delays of up to about 262.1
+ 121:include/util/delay.h ****     milliseconds can be achieved.
+ 122:include/util/delay.h ****  */
+ 123:include/util/delay.h **** void
+ 124:include/util/delay.h **** _delay_loop_2(uint16_t __count)
+ 125:include/util/delay.h **** {
+ 126:include/util/delay.h **** 	__asm__ volatile (
+ 304               	.LM37:
+ 305 009e 9C01      		movw r18,r24
+ 306               	.L23:
+ 308               	.LM38:
+ 309 00a0 2150      		subi r18,lo8(-(-1))
+ 310 00a2 3040      		sbci r19,hi8(-(-1))
+ 311 00a4 8FEF      		ldi r24,hi8(-1)
+ 312 00a6 2F3F      		cpi r18,lo8(-1)
+ 313 00a8 3807      		cpc r19,r24
+ 314 00aa 29F0      		breq .L22
+ 315               	.LBB2:
+ 317               	.LM39:
+ 318 00ac 80E0      		ldi r24,lo8(-19456)
+ 319 00ae 94EB      		ldi r25,hi8(-19456)
+ 320               	.LBB3:
+ 322               	.LM40:
+ 323               	/* #APP */
+ 324 00b0 0197      		1: sbiw r24,1
+ 325 00b2 F1F7      		brne 1b
+ 326               	/* #NOAPP */
+ 327 00b4 F5CF      		rjmp .L23
+ 328               	.L22:
+ 329 00b6 0895      		ret
+ 330               	.LBE3:
+ 331               	.LBE2:
+ 332               	/* epilogue: frame size=0 */
+ 333               	/* epilogue: noreturn */
+ 334               	/* epilogue end (size=0) */
+ 335               	/* function delay10ms size 15 (15) */
+ 340               	.Lscope6:
+ 342               	.global	baud28k
+ 344               	baud28k:
+ 346               	.Ltext2:
+ 348               	.LM41:
+ 349               	/* prologue: frame size=0 */
+ 350               	/* prologue end (size=0) */
+ 352               	.LM42:
+ 353 00b8 81E8      		ldi r24,lo8(-127)
+ 354 00ba 0E94 0000 		call byteTx
+ 356               	.LM43:
+ 357 00be 88E0      		ldi r24,lo8(8)
+ 358 00c0 0E94 0000 		call byteTx
+ 359               	.L25:
+ 361               	.LM44:
+ 362 00c4 8091 C000 		lds r24,192
+ 363 00c8 86FF      		sbrs r24,6
+ 364 00ca FCCF      		rjmp .L25
+ 366               	.LM45:
+ 367 00cc 87E2      		ldi r24,lo8(39)
+ 368 00ce 90E0      		ldi r25,hi8(39)
+ 369 00d0 9093 C500 		sts (196)+1,r25
+ 370 00d4 8093 C400 		sts 196,r24
+ 372               	.LM46:
+ 373 00d8 8AE0      		ldi r24,lo8(10)
+ 374 00da 90E0      		ldi r25,hi8(10)
+ 375 00dc 0E94 0000 		call delay10ms
+ 376               	/* epilogue: frame size=0 */
+ 377 00e0 0895      		ret
+ 378               	/* epilogue end (size=1) */
+ 379               	/* function baud28k size 21 (20) */
+ 381               	.Lscope7:
+ 383               	.global	init_stock_2
+ 385               	init_stock_2:
+ 387               	.LM47:
+ 388               	/* prologue: frame size=0 */
+ 389               	/* prologue end (size=0) */
+ 391               	.LM48:
+ 392 00e2 0E94 0000 		call bisc_init
+ 394               	.LM49:
+ 395 00e6 0E94 0000 		call bisc_power_on
+ 397               	.LM50:
+ 398 00ea 0E94 0000 		call baud28k
+ 400               	.LM51:
+ 401 00ee 84E8      		ldi r24,lo8(-124)
+ 402 00f0 0E94 0000 		call byteTx
+ 404               	.LM52:
+ 405 00f4 0E94 0000 		call flushRx
+ 406               	/* epilogue: frame size=0 */
+ 407 00f8 0895      		ret
+ 408               	/* epilogue end (size=1) */
+ 409               	/* function init_stock_2 size 12 (11) */
+ 411               	.Lscope8:
+ 413               	.global	powerOnRobot
+ 415               	powerOnRobot:
+ 417               	.LM53:
+ 418               	/* prologue: frame size=0 */
+ 419               	/* prologue end (size=0) */
+ 421               	.LM54:
+ 422 00fa 1D99      		sbic 35-0x20,5
+ 423 00fc 13C0      		rjmp .L29
+ 425               	.LM55:
+ 426 00fe 1D99      		sbic 35-0x20,5
+ 427 0100 0DC0      		rjmp .L35
+ 428               	.L33:
+ 430               	.LM56:
+ 431 0102 5F98      		cbi 43-0x20,7
+ 433               	.LM57:
+ 434 0104 82E3      		ldi r24,lo8(50)
+ 435 0106 90E0      		ldi r25,hi8(50)
+ 436 0108 0E94 0000 		call delay10ms
+ 438               	.LM58:
+ 439 010c 5F9A      		sbi 43-0x20,7
+ 441               	.LM59:
+ 442 010e 8AE0      		ldi r24,lo8(10)
+ 443 0110 90E0      		ldi r25,hi8(10)
+ 444 0112 0E94 0000 		call delay10ms
+ 446               	.LM60:
+ 447 0116 5F98      		cbi 43-0x20,7
+ 448 0118 1D9B      		sbis 35-0x20,5
+ 449 011a F3CF      		rjmp .L33
+ 450               	.L35:
+ 452               	.LM61:
+ 453 011c 8EE5      		ldi r24,lo8(350)
+ 454 011e 91E0      		ldi r25,hi8(350)
+ 455 0120 0E94 0000 		call delay10ms
+ 456               	.L29:
+ 457 0124 0895      		ret
+ 458               	/* epilogue: frame size=0 */
+ 459               	/* epilogue: noreturn */
+ 460               	/* epilogue end (size=0) */
+ 461               	/* function powerOnRobot size 22 (22) */
+ 463               	.Lscope9:
+ 465               	.global	init_stock_1
+ 467               	init_stock_1:
+ 469               	.LM62:
+ 470               	/* prologue: frame size=0 */
+ 471               	/* prologue end (size=0) */
+ 473               	.LM63:
+ 474 0126 0E94 0000 		call bisc_init
+ 476               	.LM64:
+ 477 012a 0E94 0000 		call powerOnRobot
+ 479               	.LM65:
+ 480 012e 0E94 0000 		call baud28k
+ 482               	.LM66:
+ 483 0132 84E8      		ldi r24,lo8(-124)
+ 484 0134 0E94 0000 		call byteTx
+ 486               	.LM67:
+ 487 0138 0E94 0000 		call flushRx
+ 488               	/* epilogue: frame size=0 */
+ 489 013c 0895      		ret
+ 490               	/* epilogue end (size=1) */
+ 491               	/* function init_stock_1 size 12 (11) */
+ 493               	.Lscope10:
+ 495               	.global	init_stock
+ 497               	init_stock:
+ 499               	.LM68:
+ 500               	/* prologue: frame size=0 */
+ 501               	/* prologue end (size=0) */
+ 503               	.LM69:
+ 504 013e 0E94 0000 		call initialize
+ 506               	.LM70:
+ 507 0142 0E94 0000 		call powerOnRobot
+ 509               	.LM71:
+ 510 0146 0E94 0000 		call baud28k
+ 512               	.LM72:
+ 513 014a 84E8      		ldi r24,lo8(-124)
+ 514 014c 0E94 0000 		call byteTx
+ 516               	.LM73:
+ 517 0150 0E94 0000 		call flushRx
+ 518               	/* epilogue: frame size=0 */
+ 519 0154 0895      		ret
+ 520               	/* epilogue end (size=1) */
+ 521               	/* function init_stock size 12 (11) */
+ 523               	.Lscope11:
+ 525               	.global	byteRx
+ 527               	byteRx:
+ 529               	.LM74:
+ 530               	/* prologue: frame size=0 */
+ 531               	/* prologue end (size=0) */
+ 532               	.L39:
+ 534               	.LM75:
+ 535 0156 8091 C000 		lds r24,192
+ 536 015a 8823      		tst r24
+ 537 015c E4F7      		brge .L39
+ 539               	.LM76:
+ 540 015e 8091 C600 		lds r24,198
+ 542               	.LM77:
+ 543 0162 9927      		clr r25
+ 544               	/* epilogue: frame size=0 */
+ 545 0164 0895      		ret
+ 546               	/* epilogue end (size=1) */
+ 547               	/* function byteRx size 9 (8) */
+ 549               	.Lscope12:
+ 550               		.text
+ 552               	Letext:
+ 553               	/* File "src/init_stock.c": code  183 = 0x00b7 ( 173), prologues   0, epilogues  10 */
+DEFINED SYMBOLS
+                            *ABS*:00000000 init_stock.c
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:3      *ABS*:0000003f __SREG__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:4      *ABS*:0000003e __SP_H__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:5      *ABS*:0000003d __SP_L__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:93     .text:00000000 initialize
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:151    .text:00000034 byteTx
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:175    .text:00000044 flushRx
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:204    .text:00000054 init_stock_3
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:235    .text:0000006e init_stock_4
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:265    .text:00000086 init_stock_5
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:296    .text:0000009e delay10ms
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:344    .text:000000b8 baud28k
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:385    .text:000000e2 init_stock_2
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:415    .text:000000fa powerOnRobot
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:467    .text:00000126 init_stock_1
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:497    .text:0000013e init_stock
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:527    .text:00000156 byteRx
+C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:552    .text:00000166 Letext
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+bisc_init
+bisc_power_on
+bisc_baud_all
+bisc_mode_full
+bisc_buffer_flush
