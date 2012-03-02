@@ -607,25 +607,25 @@
  553               	/* File "src/init_stock.c": code  183 = 0x00b7 ( 173), prologues   0, epilogues  10 */
 DEFINED SYMBOLS
                             *ABS*:00000000 init_stock.c
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:3      *ABS*:0000003f __SREG__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:4      *ABS*:0000003e __SP_H__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:5      *ABS*:0000003d __SP_L__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:93     .text:00000000 initialize
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:151    .text:00000034 byteTx
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:175    .text:00000044 flushRx
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:204    .text:00000054 init_stock_3
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:235    .text:0000006e init_stock_4
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:265    .text:00000086 init_stock_5
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:296    .text:0000009e delay10ms
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:344    .text:000000b8 baud28k
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:385    .text:000000e2 init_stock_2
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:415    .text:000000fa powerOnRobot
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:467    .text:00000126 init_stock_1
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:497    .text:0000013e init_stock
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:527    .text:00000156 byteRx
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0maaaa.s:552    .text:00000166 Letext
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:3      *ABS*:0000003f __SREG__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:4      *ABS*:0000003e __SP_H__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:5      *ABS*:0000003d __SP_L__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:93     .text:00000000 initialize
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:151    .text:00000034 byteTx
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:175    .text:00000044 flushRx
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:204    .text:00000054 init_stock_3
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:235    .text:0000006e init_stock_4
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:265    .text:00000086 init_stock_5
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:296    .text:0000009e delay10ms
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:344    .text:000000b8 baud28k
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:385    .text:000000e2 init_stock_2
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:415    .text:000000fa powerOnRobot
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:467    .text:00000126 init_stock_1
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:497    .text:0000013e init_stock
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:527    .text:00000156 byteRx
+C:\Users\CHRIST~1\AppData\Local\Temp/ccKqbaaa.s:552    .text:00000166 Letext
 
 UNDEFINED SYMBOLS
 __do_copy_data

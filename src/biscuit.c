@@ -2,14 +2,12 @@
 
 
 void bisc_init(void) {
-    //TODO: when we handle interrupt stuff, it will go here
     bisc_prepare();
-    
-    bisc_led_off(BISC_LED_BOTH);
     bisc_power_on();
     bisc_start();
     bisc_baud_all(BISC_BAUD_REC);
-    bisc_mode_safe();
+    bisc_mode_full();
+    bisc_buffer_flush();
 }
 
 void bisc_prepare() {
@@ -36,15 +34,15 @@ void bisc_power_on(void) {
             //a power tranisition happens when the powr toggles low to high
             //delays are included to let the create notice the change
             BISC_PWR_TOGGLE_LOW();
-            bisc_delay(100);
+            bisc_delay(50);
             BISC_PWR_TOGGLE_HIGH();
-            bisc_delay(100);
+            bisc_delay(10);
         }
         //toggle power back to low
         BISC_PWR_TOGGLE_LOW();
 
         //delay for create bootloader
-        bisc_delay(2000);
+        bisc_delay(350);
     }
 }
 
@@ -104,11 +102,11 @@ void bisc_led_off(uint8_t led) {
 
 
 //delay in centiseconds
-void bisc_delay(uint16_t ms) {
-    while(ms-- > 0)
+void bisc_delay(uint16_t cs) {
+  while(cs-- > 0)
   {
-    // Call a 1 ms delay loop
-    _delay_loop_2(4608);
+    // Call a 10 ms delay loop
+    _delay_loop_2(46080);
   }
 }
 

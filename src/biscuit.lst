@@ -652,23 +652,23 @@
  606               	/* File "src/biscuit.c": code  215 = 0x00d7 ( 189), prologues   9, epilogues  17 */
 DEFINED SYMBOLS
                             *ABS*:00000000 biscuit.c
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:3      *ABS*:0000003f __SREG__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:4      *ABS*:0000003e __SP_H__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:5      *ABS*:0000003d __SP_L__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:92     .text:00000000 bisc_atm_baud
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:119    .text:00000018 bisc_prepare
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:167    .text:0000003a bisc_delay
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:215    .text:00000054 bisc_power_on
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:270    .text:00000080 bisc_atm_baud_from_create
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:395    .text:000000ea bisc_baud_all
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:431    .text:0000010c bisc_led_off
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:450    .text:00000116 bisc_init
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:487    .text:00000134 bisc_led_on
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:507    .text:0000013a bisc_define_song
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:579    .text:00000190 bisc_play_song
-C:\Users\CHRIST~1\AppData\Local\Temp/ccKubaaa.s:605    .text:000001a8 Letext
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:3      *ABS*:0000003f __SREG__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:4      *ABS*:0000003e __SP_H__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:5      *ABS*:0000003d __SP_L__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:92     .text:00000000 bisc_atm_baud
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:119    .text:00000018 bisc_prepare
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:167    .text:0000003a bisc_delay
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:215    .text:00000054 bisc_power_on
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:270    .text:00000080 bisc_atm_baud_from_create
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:395    .text:000000ea bisc_baud_all
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:431    .text:0000010c bisc_led_off
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:450    .text:00000116 bisc_init
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:487    .text:00000134 bisc_led_on
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:507    .text:0000013a bisc_define_song
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:579    .text:00000190 bisc_play_song
+C:\Users\CHRIST~1\AppData\Local\Temp/ccQ1aaaa.s:605    .text:000001a8 Letext
 
 UNDEFINED SYMBOLS
 __do_copy_data

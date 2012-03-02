@@ -28,61 +28,74 @@
    6:src/main.c    **** 
    7:src/main.c    ****     uint8_t value = 0;
  106               	.LM3:
- 107 000c C0E0      		ldi r28,lo8(0)
+ 107 000c 10E0      		ldi r17,lo8(0)
  108               	.L2:
    8:src/main.c    ****     while(1) {
    9:src/main.c    ****         if(value % 2 == 0) {
  110               	.LM4:
- 111 000e C0FD      		sbrc r28,0
- 112 0010 06C0      		rjmp .L4
-  10:src/main.c    ****             bisc_led_on(BISC_LED_BOTH, 255, 255);
- 114               	.LM5:
- 115 0012 4FEF      		ldi r20,lo8(-1)
- 116 0014 642F      		mov r22,r20
- 117 0016 8AE0      		ldi r24,lo8(10)
- 118 0018 0E94 0000 		call bisc_led_on
- 119 001c 03C0      		rjmp .L5
- 120               	.L4:
-  11:src/main.c    ****         }
-  12:src/main.c    ****         else {
-  13:src/main.c    ****             bisc_led_off(BISC_LED_BOTH);
- 122               	.LM6:
- 123 001e 8AE0      		ldi r24,lo8(10)
- 124 0020 0E94 0000 		call bisc_led_off
- 125               	.L5:
-  14:src/main.c    ****         }
-  15:src/main.c    **** 		bisc_delay(300);
- 127               	.LM7:
- 128 0024 8CE2      		ldi r24,lo8(300)
- 129 0026 91E0      		ldi r25,hi8(300)
- 130 0028 0E94 0000 		call bisc_delay
-  16:src/main.c    ****         value++;
- 132               	.LM8:
- 133 002c CF5F      		subi r28,lo8(-(1))
- 134 002e EFCF      		rjmp .L2
- 135               	/* epilogue: frame size=0 */
- 136               	/* epilogue: noreturn */
- 137               	/* epilogue end (size=0) */
- 138               	/* function main size 24 (20) */
- 143               	.Lscope0:
- 144               		.text
- 146               	Letext:
- 147               	/* File "src/main.c": code   24 = 0x0018 (  20), prologues   4, epilogues   0 */
+ 111 000e C12F      		mov r28,r17
+ 112 0010 C170      		andi r28,lo8(1)
+ 113 0012 10FD      		sbrc r17,0
+ 114 0014 0DC0      		rjmp .L4
+  10:src/main.c    ****             //bisc_led_on(BISC_LED_BOTH, 255, 255);
+  11:src/main.c    ****             byteTx(CmdLeds);
+ 116               	.LM5:
+ 117 0016 8BE8      		ldi r24,lo8(-117)
+ 118 0018 0E94 0000 		call byteTx
+  12:src/main.c    ****             byteTx(LEDAdvance);
+ 120               	.LM6:
+ 121 001c 88E0      		ldi r24,lo8(8)
+ 122 001e 0E94 0000 		call byteTx
+  13:src/main.c    ****             byteTx(0);
+ 124               	.LM7:
+ 125 0022 8C2F      		mov r24,r28
+ 126 0024 0E94 0000 		call byteTx
+  14:src/main.c    ****             byteTx(0);
+ 128               	.LM8:
+ 129 0028 8C2F      		mov r24,r28
+ 130 002a 0E94 0000 		call byteTx
+ 131 002e 03C0      		rjmp .L5
+ 132               	.L4:
+  15:src/main.c    ****         }
+  16:src/main.c    ****         else {
+  17:src/main.c    ****             bisc_led_off(BISC_LED_BOTH);
+ 134               	.LM9:
+ 135 0030 8AE0      		ldi r24,lo8(10)
+ 136 0032 0E94 0000 		call bisc_led_off
+ 137               	.L5:
+  18:src/main.c    ****         }
+  19:src/main.c    **** 		bisc_delay(300);
+ 139               	.LM10:
+ 140 0036 8CE2      		ldi r24,lo8(300)
+ 141 0038 91E0      		ldi r25,hi8(300)
+ 142 003a 0E94 0000 		call bisc_delay
+  20:src/main.c    ****         value++;
+ 144               	.LM11:
+ 145 003e 1F5F      		subi r17,lo8(-(1))
+ 146 0040 E6CF      		rjmp .L2
+ 147               	/* epilogue: frame size=0 */
+ 148               	/* epilogue: noreturn */
+ 149               	/* epilogue end (size=0) */
+ 150               	/* function main size 33 (29) */
+ 155               	.Lscope0:
+ 156               		.text
+ 158               	Letext:
+ 159               	/* File "src/main.c": code   33 = 0x0021 (  29), prologues   4, epilogues   0 */
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:3      *ABS*:0000003f __SREG__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:4      *ABS*:0000003e __SP_H__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:5      *ABS*:0000003d __SP_L__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:93     .text:00000000 main
-C:\Users\CHRIST~1\AppData\Local\Temp/ccs9aaaa.s:146    .text:00000030 Letext
+C:\Users\CHRIST~1\AppData\Local\Temp/cc6Paaaa.s:3      *ABS*:0000003f __SREG__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc6Paaaa.s:4      *ABS*:0000003e __SP_H__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc6Paaaa.s:5      *ABS*:0000003d __SP_L__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc6Paaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc6Paaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/cc6Paaaa.s:93     .text:00000000 main
+C:\Users\CHRIST~1\AppData\Local\Temp/cc6Paaaa.s:158    .text:00000042 Letext
 
 UNDEFINED SYMBOLS
 __do_copy_data
 __do_clear_bss
 __stack
 init_stock
-bisc_led_on
+byteTx
 bisc_led_off
 bisc_delay

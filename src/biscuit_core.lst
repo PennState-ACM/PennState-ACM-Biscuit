@@ -383,24 +383,24 @@
  449               	/* File "src/biscuit_core.c": code  146 = 0x0092 ( 109), prologues  13, epilogues  24 */
 DEFINED SYMBOLS
                             *ABS*:00000000 biscuit_core.c
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:3      *ABS*:0000003f __SREG__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:4      *ABS*:0000003e __SP_H__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:5      *ABS*:0000003d __SP_L__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:88     .text:00000000 bisc_buffer_send
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:112    .text:00000010 bisc_buffer_read
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:138    .text:00000020 bisc_buffer_isReady
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:166    .text:00000034 bisc_buffer_flush
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:195    .text:00000044 bisc_start
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:214    .text:0000004c bisc_baud
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:245    .text:00000068 bisc_mode_passive
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:263    .text:00000070 bisc_mode_safe
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:281    .text:00000078 bisc_mode_full
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:302    .text:00000080 bisc_led
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:342    .text:000000ac bisc_sendIR
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:370    .text:000000c0 bisc_sensors
-C:\Users\CHRIST~1\AppData\Local\Temp/cc0Gbaaa.s:448    .text:00000122 Letext
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:3      *ABS*:0000003f __SREG__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:4      *ABS*:0000003e __SP_H__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:5      *ABS*:0000003d __SP_L__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:88     .text:00000000 bisc_buffer_send
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:112    .text:00000010 bisc_buffer_read
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:138    .text:00000020 bisc_buffer_isReady
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:166    .text:00000034 bisc_buffer_flush
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:195    .text:00000044 bisc_start
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:214    .text:0000004c bisc_baud
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:245    .text:00000068 bisc_mode_passive
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:263    .text:00000070 bisc_mode_safe
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:281    .text:00000078 bisc_mode_full
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:302    .text:00000080 bisc_led
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:342    .text:000000ac bisc_sendIR
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:370    .text:000000c0 bisc_sensors
+C:\Users\CHRIST~1\AppData\Local\Temp/ccq6aaaa.s:448    .text:00000122 Letext
 
 UNDEFINED SYMBOLS
 __do_copy_data
